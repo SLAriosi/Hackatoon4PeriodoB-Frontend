@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from '../services/auth';
+import axios from 'axios'; // Importando axios
 import { useRouter } from 'next/router';
 import { FaEnvelope, FaLock } from 'react-icons/fa'; // Importando os ícones de email e senha
 import styles from '../styles/Login.module.css';
@@ -10,12 +10,19 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
+  const URL_API = process.env.NEXT_PUBLIC_API_URL;
+
+  console.log(URL_API);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await login(email, password);
-      if (response.token) {
-        router.push('/dashboard');  // Redireciona para o painel após o login
+      const response = await axios.post(`${URL_API}/login`, { email, password });
+
+      console.log(email, password);
+
+      if (response.data.token) {
+        router.push('/dashboard');
       }
     } catch (err) {
       setError('Credenciais inválidas');
@@ -53,7 +60,7 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          <button type="submit" className={styles.button}>Login</button>
+          <button type="submit" className={styles.button} onClick={handleSubmit}>Login</button>
         </form>
       </div>
     </div>
