@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Container principal */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff; /* Fundo branco */
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
+  margin: 0;
+}
+
+/* Conteúdo centralizado */
+.content {
+  text-align: center;
+  background: #f7f7f7; /* Fundo cinza claro */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  width: 100%;
+  max-width: 480px; /* Largura máxima do conteúdo */
+}
+
+/* Título */
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333; /* Cor de texto escura */
+  margin-bottom: 20px;
+}
+
+/* Descrição */
+.description {
+  font-size: 16px;
+  color: #555; /* Cor do texto secundário */
+  margin-bottom: 30px;
+}
+
+/* Links */
+.links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Estilo do link */
+.link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #000; /* Fundo preto */
+  color: #fff; /* Texto branco */
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+/* Efeito de hover no link */
+.link:hover {
+  background-color: #333; /* Fundo mais escuro no hover */
+}

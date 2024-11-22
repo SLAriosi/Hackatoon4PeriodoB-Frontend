@@ -1,0 +1,99 @@
+/* Register.module.css */
+
+/* Container */
+.registerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Formulário */
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.registerTitle {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Wrapper para os campos de entrada */
+.inputFieldWrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;  /* Ajuste de espaçamento entre os campos */
+}
+
+/* Estilo do campo de entrada */
+.inputField {
+    width: 100%;
+    padding: 12px 12px 12px 40px; /* Espaçamento interno para o ícone */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.inputField:focus {
+    border-color: #000;
+    background-color: #fff;
+    outline: none;
+}
+
+/* Estilo para os ícones dentro dos campos */
+.inputIcon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #ccc;
+    font-size: 18px;
+}
+
+/* Estilo do botão de submit */
+.submitButton {
+    padding: 12px;
+    background-color: #000;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Efeito de hover no botão */
+.submitButton:hover {
+    background-color: #111;
+    transform: translateY(-2px);
+}
+
+/* Mensagem de erro */
+.errorMessage {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 10px;
+    text-align: center;
+    display: block;
+}

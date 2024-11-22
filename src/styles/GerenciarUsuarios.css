@@ -1,0 +1,110 @@
+/* Layout Geral */
+.gerenciar-usuarios-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.gerenciar-usuarios-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Título */
+.gerenciar-usuarios-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Formulário */
+.form-container {
+  margin-bottom: 40px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.form-container input,
+.form-container select {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-container button {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Lista de Usuários */
+.usuarios-list h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.usuario-item {
+  padding: 15px;
+  background: #fff;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.usuario-item h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Estilos para os botões */
+.usuario-item button {
+  width: 100%; /* Faz com que o botão ocupe toda a largura do card */
+  padding: 10px;  /* Ajuste do padding para não deixar os botões tão grandes */
+  font-size: 0.875rem;  /* Fonte mais compacta */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Botão de Editar */
+.usuario-item button:first-of-type {
+  background-color: #000;
+  color: #fff;
+}
+
+.usuario-item button:first-of-type:hover {
+  background-color: #ccc;
+}
+
+/* Botão de Excluir */
+.usuario-item button:last-of-type {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.usuario-item button:last-of-type:hover {
+  background-color: #c82333;
+}

@@ -1,0 +1,95 @@
+/* global.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #333;
+  --secondary-color: #f8f8f8;
+  --accent-color: #4d90fe;
+  --font-family: 'Roboto', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  font-size: 16px;
+  background-color: var(--secondary-color);
+}
+
+body {
+  color: var(--primary-color);
+  line-height: 1.6;
+  overflow-x: hidden; /* Evita rolagem horizontal indesejada */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  margin-bottom: 15px;
+}
+
+button {
+  font-family: var(--font-family);
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #357ae8;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px; /* Garantindo que não haja conteúdo colado nas bordas */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.main-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px; /* Padding em conteúdo principal para dar espaço */
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    flex-direction: column;
+    padding: 10px; /* Menor padding em telas pequenas */
+  }
+
+  .main-content {
+    padding: 10px; /* Reduzindo o padding em telas menores */
+  }
+}
+
+@media (max-width: 480px) {
+  button {
+    width: 100%; /* Botões de largura total em telas menores */
+  }
+
+  .container {
+    padding: 5px; /* Ajustando o padding para telas muito pequenas */
+  }
+}

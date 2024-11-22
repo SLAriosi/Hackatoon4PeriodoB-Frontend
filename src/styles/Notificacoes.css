@@ -1,0 +1,108 @@
+/* Container principal */
+.notificacoes-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* Container de conteúdo das notificações */
+.notificacoes-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notificacoes-content h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Lista de notificações */
+.notificacao-lista {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+}
+
+/* Notificação individual */
+.notificacao-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
+}
+
+.notificacao-item.lida {
+  background-color: #f4f4f4;
+  border-color: #ccc;
+}
+
+.notificacao-item:hover {
+  background-color: #f9f9f9;
+}
+
+/* Informação da notificação */
+.info {
+  flex: 1;
+}
+
+.tipo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.mensagem {
+  font-size: 1rem;
+  color: #555;
+}
+
+.tempo {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+/* Botões de ação */
+.acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.btn-lida, .btn-excluir {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+.btn-lida:hover, .btn-excluir:hover {
+  text-decoration: underline;
+}
+
+/* Mensagem caso não haja notificações */
+.mensagem-vazia {
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  padding: 20px;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+  .notificacoes-content {
+    padding: 15px;
+  }
+}

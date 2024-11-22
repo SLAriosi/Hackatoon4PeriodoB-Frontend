@@ -1,0 +1,42 @@
+/* PopupNotification.module.css */
+.popupContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+  z-index: 1000; /* Coloca o popup acima de outros elementos */
+}
+
+.popupContent {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.popupItem {
+  margin-bottom: 10px;
+}
+
+.closeButton {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.closeButton:hover {
+  background-color: #d32f2f;
+}

@@ -1,0 +1,92 @@
+/* Layout Geral */
+.gerenciar-ambientes-page {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+  }
+  
+  .gerenciar-ambientes-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  /* Título */
+  .gerenciar-ambientes-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Formulário */
+  .form-container {
+    margin-bottom: 40px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .form-container input,
+  .form-container textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-container button {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .form-container button:hover {
+    background-color: #555;
+  }
+  
+  /* Lista de Ambientes */
+  .ambientes-list h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .ambiente-item {
+    padding: 15px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .ambiente-item h3 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+  
+  .ambiente-item button {
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .ambiente-item button:hover {
+    background-color: #218838;
+  }
+  

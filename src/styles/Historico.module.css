@@ -1,0 +1,97 @@
+/* Historico.module.css */
+.historicoContainer {
+  display: flex;
+  background-color: #f4f7fa; /* Fundo mais claro para a página */
+  height: 100vh; /* Garante que a página ocupe toda a altura da tela */
+}
+
+.historicoContent {
+  padding: 20px;
+  background-color: #f8f9fa; /* Cor de fundo clara para o conteúdo */
+  flex: 1; /* Garante que o conteúdo ocupe o restante do espaço */
+  border-radius: 8px; /* Bordas arredondadas para o conteúdo */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.historicoTitle {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333; /* Cor mais escura para o título */
+}
+
+.filtersContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filterInput {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  width: 200px;
+  font-size: 14px;
+  transition: border-color 0.3s ease; /* Efeito de transição ao focar */
+}
+
+.filterInput:focus {
+  border-color: #333; /* Cor de borda mais escura quando focado */
+  outline: none;
+}
+
+.exportButtons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pdfButton, .csvButton {
+  padding: 12px 18px;
+  background-color: #000; /* Cor de fundo preta */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px; /* Define o tamanho da fonte igual para ambos os botões */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Efeito suave ao passar o mouse */
+  text-decoration: none; /* Remove qualquer sublinhado */
+}
+
+.pdfButton:hover, .csvButton:hover {
+  background-color: #555; /* Tom mais claro de preto ao passar o mouse */
+  transform: translateY(-2px); /* Levanta o botão ao passar o mouse */
+}
+
+.pdfButton:active, .csvButton:active {
+  transform: translateY(2px); /* Efeito de pressionamento dos botões */
+}
+
+.reservationTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.reservationTable th, .reservationTable td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.reservationTable th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.reservationTable tr:nth-child(even) {
+  background-color: #fafafa; /* Tom mais claro nas linhas alternadas */
+}
+
+.reservationTable tr:hover {
+  background-color: #f0f0f0; /* Efeito ao passar o mouse sobre a linha */
+}
+
+.reservationTable td {
+  word-wrap: break-word; /* Impede o overflow de conteúdo */
+}
