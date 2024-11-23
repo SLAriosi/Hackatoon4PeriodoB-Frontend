@@ -12,16 +12,18 @@ const Login: React.FC = () => {
 
   const URL_API = process.env.NEXT_PUBLIC_API_URL;
 
-  console.log(URL_API);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post(`${URL_API}/login`, { email, password });
 
-      console.log(email, password);
+      console.log("response.data");
+      console.log(response.data);
+      console.log('response.data');
 
       if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', response.data.user_id);
         router.push('/dashboard');
       }
     } catch (err) {

@@ -7,6 +7,7 @@ import Chart from 'chart.js/auto';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import styles from '../styles/Dashboard.module.css';
+import { useRouter } from 'next/router';
 
 const Dashboard: React.FC = () => {
   // Estados
@@ -20,6 +21,15 @@ const Dashboard: React.FC = () => {
   const [endDate, setEndDate] = useState<string>('');
   const [statusUpdate, setStatusUpdate] = useState<string>('');  // Para marcar "faltou" nas reservas
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    }
+  }, []);
 
   const itemsPerPage = 5;
   const environments = ['Auditório', 'AlphaLAB', 'Salas', 'Biblioteca'];

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa'; // Ícones
 import { register } from '../services/api'; // Função para registro
