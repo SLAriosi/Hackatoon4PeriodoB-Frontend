@@ -1,0 +1,44 @@
+version: "3.9"
+
+networks:
+  laravel_enviroment:
+
+services:
+  frontend:
+    build: .
+    container_name: frontend_laravel_enviroment
+    ports:
+      - "3000:3000" # Porta padrão do Next.js
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - API_URL=http://laravel_enviroment_server/api # URL do backend
+    depends_on:
+      - server # Nome do serviço de backend (server)
+    networks:
+      - laravel_enviroment
+
+  server:
+    image: 'nginx:stable-alpine'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../caminho/para/o/backend:/app
+      - /app/vendor
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=base64:5bHlq17Cl/cYQ1eB9WyVRrcZWH0lH1DU3R2Lso9MJlE=
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=laravel_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=secret
+    networks:
+      - laravel_enviroment
