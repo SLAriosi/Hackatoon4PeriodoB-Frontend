@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import { CSVLink } from 'react-csv';
 import Sidebar from '../components/Sidebar';
 import styles from '../styles/Historico.module.css';
+import { useRouter } from 'next/router';
 
 interface Reservation {
   id: number;
@@ -32,6 +33,14 @@ const Historico: React.FC = () => {
   const [userFilter, setUserFilter] = useState('');
   const [environmentFilter, setEnvironmentFilter] = useState('');
   const [dateFilter, setDateFilter] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    }
+  }, []);
 
   // Função de filtro
   const filterHistory = () => {

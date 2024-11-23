@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from './Sidebar.module.css';
 import {
   FaBars,
@@ -17,6 +18,7 @@ import {
 } from 'react-icons/fa';
 
 const Sidebar: React.FC = () => {
+  const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const isAdmin = true; // Isso deve vir do contexto ou de uma verificação de autenticação real
@@ -35,6 +37,11 @@ const Sidebar: React.FC = () => {
   };
 
   const unreadNotificationsCount = notifications.filter((notification) => !notification.read).length;
+
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push('/login');
+  };
 
   return (
     <div className={`${styles.sidebar} ${darkMode ? styles.dark : styles.light}`}>
@@ -119,7 +126,7 @@ const Sidebar: React.FC = () => {
           {darkMode ? <FaMoon size={18} /> : <FaSun size={18} />}
           <span className={isCollapsed ? styles.hidden : ''}>{darkMode ? 'Modo Escuro' : 'Modo Claro'}</span>
         </button>
-        <button className={styles.logoutButton}>
+        <button onClick={handleLogout} className={styles.logoutButton}>
           <FaSignOutAlt size={18} />
           <span className={isCollapsed ? styles.hidden : ''}>Sair</span>
         </button>

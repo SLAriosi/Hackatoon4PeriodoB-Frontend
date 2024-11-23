@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import '../styles/Agendamento.css';
+import { useRouter } from 'next/router';
 
 const Agendamento: React.FC = () => {
   const environments = [
@@ -21,6 +22,14 @@ const Agendamento: React.FC = () => {
   const [actionType, setActionType] = useState<'reserve' | 'cancel' | 'edit'>('reserve');
   const [reservationToEdit, setReservationToEdit] = useState<any | null>(null);
   const [editedReservation, setEditedReservation] = useState<any | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+    }
+  }, []);
 
   const availableTimes = [
     { id: 1, time: '10:00' },
