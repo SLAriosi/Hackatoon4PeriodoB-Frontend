@@ -1,5 +1,7 @@
 /* Agendamento.css */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 /* Container principal do agendamento */
 .agendamento-container {
     display: flex;
@@ -67,6 +69,7 @@
 
 .environment-card p {
     font-size: 1rem;
+    text-align: left;
 }
 
 /* Estilo dos horários disponíveis */
@@ -359,4 +362,3 @@
     display: flex;
     justify-content: space-between;
   }
-  

@@ -8,6 +8,7 @@ import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import styles from '../styles/Dashboard.module.css';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const Dashboard: React.FC = () => {
   // Estados
@@ -21,6 +22,7 @@ const Dashboard: React.FC = () => {
   const [endDate, setEndDate] = useState<string>('');
   const [statusUpdate, setStatusUpdate] = useState<string>('');  // Para marcar "faltou" nas reservas
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [environments, setEnvironments] = useState<string[]>([]);
 
   const router = useRouter();
 
@@ -32,11 +34,22 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const itemsPerPage = 5;
-  const environments = ['Auditório', 'AlphaLAB', 'Salas', 'Biblioteca'];
+
+  useEffect(() => {
+    const fetchEnvironments = async () => {
+      try {
+        const response = await axios.get('/ambientes');
+        setEnvironments(response.data); // Ensure response.data is an array
+      } catch (error) {
+        toast.error('Erro ao carregar os ambientes!');
+      }
+    };
+    fetchEnvironments();
+  }, []);
 
   // Função para buscar as reservas
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       try {
         setLoading(true);
         setError(null);
@@ -55,7 +68,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   // Filtro das reservas com uso de useMemo para otimizar
-  const filteredData = useMemo(() => {
+  const filteredData: Reservation[] = useMemo(() => {
     let updatedReservations = reservations;
 
     // Filtro de Status
@@ -88,7 +101,7 @@ const Dashboard: React.FC = () => {
   }, [filteredData]);
 
   // Função de renderização dos gráficos
-  const renderCharts = (data: Reservation[]) => {
+  const renderCharts = (data: Reservation[]): void => {
     const environmentCounts = environments.map(
       (env) => data.filter((res) => res.environment === env).length
     );
@@ -151,7 +164,7 @@ const Dashboard: React.FC = () => {
   };
 
   // Função para atualizar status da reserva
-  const handleStatusUpdate = (id: number, status: string) => {
+  const handleStatusUpdate = (id: number, status: string): void => {
     const updatedReservations = reservations.map((res) =>
       res.id === id ? { ...res, status } : res
     );
@@ -161,7 +174,7 @@ const Dashboard: React.FC = () => {
   };
 
   // Função para baixar o relatório em CSV
-  const handleDownloadCSV = () => {
+  const handleDownloadCSV = (): void => {
     const csvContent =
       'data:text/csv;charset=utf-8,' +
       ['Ambiente,Data,Status,Pessoa que Reservou']
@@ -179,7 +192,7 @@ const Dashboard: React.FC = () => {
   };
 
   // Função para baixar o gráfico como imagem
-  const handleDownloadChart = (chartId: string) => {
+  const handleDownloadChart = (chartId: string): void => {
     const chartCanvas = document.getElementById(chartId) as HTMLCanvasElement;
     if (chartCanvas) {
       const image = chartCanvas.toDataURL('image/png');
@@ -188,7 +201,7 @@ const Dashboard: React.FC = () => {
   };
 
   // Função para gerar e baixar PDF
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = (): void => {
     const doc = new jsPDF();
     doc.text('Relatório de Reservas', 20, 20);
     filteredReservations.forEach((res, index) => {
@@ -202,7 +215,7 @@ const Dashboard: React.FC = () => {
   };
 
   // Função para contar reservas por status
-  const countReservationsByStatus = () => {
+  const countReservationsByStatus = (): { pending: number; completed: number; canceled: number } => {
     return reservations.reduce(
       (acc, res) => {
         if (res.status === 'pendente') acc.pending++;
@@ -221,7 +234,7 @@ const Dashboard: React.FC = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentReservations = filteredReservations.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (page: number) => setCurrentPage(page);
+  const handlePageChange = (page: number): void => setCurrentPage(page);
 
   // Total de reservas
   const totalReservations = reservations.length;
@@ -237,12 +250,17 @@ const Dashboard: React.FC = () => {
           {/* Filtros */}
           <div className={styles.filtersContainer}>
             <div className={styles.filters}>
-              <input
-                type="text"
-                placeholder="Filtrar por ambiente"
+              <select
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-              />
+              >
+                <option value="">Filtrar por ambiente</option>
+                {Array.isArray(environments) && environments.map((env) => (
+                  <option key={env} value={env}>
+                    {env}
+                  </option>
+                ))}
+              </select>
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
