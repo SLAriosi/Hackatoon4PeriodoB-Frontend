@@ -97,7 +97,7 @@ const Perfil: React.FC = () => {
         <>
           <Sidebar />
           <div className="perfil-content">
-            <h1>Meu Perfil</h1>
+            <h1 className="perfil-title">Meu Perfil</h1>
             <div className="perfil-form">
               <div className="form-group">
                 <label htmlFor="name">Nome</label>

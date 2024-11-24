@@ -252,6 +252,9 @@ const Agendamento: React.FC = () => {
                     <button
                       onClick={() => openConfirmationModal('edit', res)}
                       className="edit-btn"
+                      style={{ backgroundColor: 'yellow', transition: 'background-color 0.3s' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'darkorange')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'yellow')}
                     >
                       Editar
                     </button>
@@ -263,73 +266,71 @@ const Agendamento: React.FC = () => {
         </div>
 
         {/* Modal de Confirmação */}
-        {showConfirmation && (
-          <div className="confirmation-modal">
-            <div className="modal-content">
-              {actionType === 'reserve' && (
-                <>
-                  <h2>Confirmar Reserva</h2>
-                  <p>Você deseja confirmar a reserva?</p>
-                  <div className="modal-buttons">
-                    <button onClick={handleReserve} className="confirm-btn">Confirmar</button>
-                    <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
-                  </div>
-                </>
-              )}
-              {actionType === 'cancel' && (
-                <>
-                  <h2>Cancelar Reserva</h2>
-                  <p>Tem certeza que deseja cancelar esta reserva?</p>
-                  <div className="modal-buttons">
-                    <button onClick={handleCancelReservation} className="confirm-btn">Confirmar</button>
-                    <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
-                  </div>
-                </>
-              )}
-              {actionType === 'edit' && reservationToEdit && (
-                <>
-                  <h2>Editar Reserva</h2>
-                  <div className="edit-fields">
-                    <label>Data:</label>
-                    <input
-                      type="date"
-                      value={editedReservation?.data_reserva || ''}
-                      onChange={handleEditedDateChange}
-                    />
-                    <label>Período:</label>
-                    <select
-                      value={editedReservation?.periodo || ''}
-                      onChange={(e) => handleEditedTimeChange(e.target.value)}
-                    >
-                      {avaiablePeriods.map((periodo) => (
-                        <option key={periodo.id} value={periodo.periodo}>
-                          {periodo.periodo}
-                        </option>
-                      ))}
-                    </select>
-                    <label>Ambiente:</label>
-                    <select
-                      value={editedReservation?.environment || ''}
-                      onChange={(e) => handleEditedEnvironmentChange(parseInt(e.target.value))}
-                    >
-                      {ambientes.map((env) => (
-                        <option key={env.id} value={env.id}>
-                          {env.name} {console.log(env)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="modal-buttons">
-                    <button onClick={handleEditReservation} className="confirm-btn">Salvar Alterações</button>
-                    <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        )}
+        <div className="modal-content">
+          {actionType === 'reserve' && (
+            <>
+              <h2>Confirmar Reserva</h2>
+              <p>Você deseja confirmar a reserva?</p>
+              <div className="modal-buttons">
+                <button onClick={handleReserve} className="confirm-btn">Confirmar</button>
+                <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+              </div>
+            </>
+          )}
+          {actionType === 'cancel' && (
+            <>
+              <h2>Cancelar Reserva</h2>
+              <p>Tem certeza que deseja cancelar esta reserva?</p>
+              <div className="modal-buttons">
+                <button onClick={handleCancelReservation} className="confirm-btn">Confirmar</button>
+                <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+              </div>
+            </>
+          )}
+          {actionType === 'edit' && reservationToEdit && (
+            <>
+              <h2>Editar Reserva</h2>
+              <div className="edit-fields">
+                <label>Data:</label>
+                <input
+                  type="date"
+                  value={editedReservation?.data_reserva || ''}
+                  onChange={handleEditedDateChange}
+                />
+                <label>Período:</label>
+                <select
+                  value={editedReservation?.periodo || ''}
+                  onChange={(e) => handleEditedTimeChange(e.target.value)}
+                >
+                  {avaiablePeriods.map((periodo) => (
+                    <option key={periodo.id} value={periodo.periodo}>
+                      {periodo.periodo}
+                    </option>
+                  ))}
+                </select>
+                <label>Ambiente:</label>
+                <select
+                  value={editedReservation?.environment || ''}
+                  onChange={(e) => handleEditedEnvironmentChange(parseInt(e.target.value))}
+                >
+                  {ambientes.map((env) => (
+                    <option key={env.id} value={env.id}>
+                      {env.name} {console.log(env)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="modal-buttons">
+                <button onClick={handleEditReservation} className="confirm-btn">Salvar Alterações</button>
+                <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
+        )}
     </div>
+
   );
 };
 

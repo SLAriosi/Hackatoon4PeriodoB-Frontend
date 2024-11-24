@@ -91,4 +91,23 @@
   .ambiente-item button:hover {
     background-color: #218838;
   }
-  
+
+.edit-button {
+  background-color: #e2d712;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #c2b312;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: darkred;
+}
+
+

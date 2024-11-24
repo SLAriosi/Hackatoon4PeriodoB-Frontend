@@ -150,8 +150,22 @@ const GerenciarUsuarios: React.FC = () => {
                     <td>{usuario.role}</td>
                     <td>{usuario.course}</td>
                     <td>
-                      <button onClick={() => handleEditUsuario(usuario.id)}>Editar</button>
-                      <button onClick={() => handleDeleteUsuario(usuario.id)}>Excluir</button>
+                      <button 
+                        onClick={() => handleEditUsuario(usuario.id)} 
+                        style={{ backgroundColor: '#e2d712', transition: 'background-color 0.3s' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#c4b200'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#e2d712'}
+                      >
+                        Editar
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteUsuario(usuario.id)} 
+                        style={{ backgroundColor: 'red', transition: 'background-color 0.3s' }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#cc0000'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'red'}
+                      >
+                        Excluir
+                      </button>
                     </td>
                   </tr>
                 ))}
