@@ -95,7 +95,7 @@ const GerenciarAmbientes: React.FC = () => {
   };
 
   return (
-    <div className="gerenciar-ambientes-page" style={{ fontFamily: 'Poppins, sans-serif' }}>
+    <div className="gerenciar-ambientes-page" style={{ fontFamily: 'Poppins, sans-serif', textAlign: 'center' }}>
       {isLoading && (
         <div className="loading-modal">
           <div className="loading-spinner">
@@ -106,7 +106,7 @@ const GerenciarAmbientes: React.FC = () => {
       {!isLoading && (
         <>
           <Sidebar />
-          <div className="gerenciar-ambientes-content">
+          <div className="gerenciar-ambientes-content" style={{ width: '60%', margin: '0 auto', wordWrap: 'break-word', paddingLeft: '20px', paddingRight: '20px' }}>
             <h1>Gerenciamento de Ambientes</h1>
 
             <div className="form-container">
@@ -147,11 +147,11 @@ const GerenciarAmbientes: React.FC = () => {
               <h2>Ambientes Cadastrados</h2>
               {ambientes?.map((ambiente) => (
                 <div key={ambiente.id} className="ambiente-item">
-                  <h3>{ambiente.name}</h3>
-                  <p>{ambiente.description}</p>
-                  <div className="div-buttons">
-                    <button className="edit-button" onClick={() => handleEditAmbiente(ambiente.id)}>Editar</button>
-                    <button className="delete-button" onClick={() => confirmDelete(ambiente.id)}>Deletar</button>
+                  <h3 style={{ marginBottom: '20px' }}>{ambiente.name}</h3>
+                  <p style={{ marginBottom: '20px' }}>{ambiente.description}</p>
+                  <div className="div-buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                    <button className="edit-button" onClick={() => handleEditAmbiente(ambiente.id)} style={{ backgroundColor: 'yellow' }}>Editar</button>
+                    <button className="delete-button" onClick={() => confirmDelete(ambiente.id)} style={{ backgroundColor: 'red' }}>Deletar</button>
                   </div>
                 </div>
               ))}

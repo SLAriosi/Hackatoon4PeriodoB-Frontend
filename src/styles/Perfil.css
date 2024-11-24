@@ -18,6 +18,10 @@
   color: #333;
 }
 
+.perfil-title {
+  text-align: center;
+}
+
 /* Formulário */
 .perfil-form {
   background: #ffffff;
