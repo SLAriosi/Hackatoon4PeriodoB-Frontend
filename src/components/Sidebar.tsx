@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from './Sidebar.module.css';
@@ -21,12 +22,23 @@ const Sidebar: React.FC = () => {
   const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const isAdmin = true; // Isso deve vir do contexto ou de uma verificação de autenticação real
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const [notifications, setNotifications] = useState([
     { id: 1, title: 'Nova Reserva', read: false },
     { id: 2, title: 'Novo Comentário', read: true },
     { id: 3, title: 'Alteração de Ambiente', read: false },
   ]);
+
+
+  useEffect(() => {
+    const userRole = localStorage.getItem('role');
+    if (userRole === 'ADMINISTRADOR') {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  })
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
@@ -78,26 +90,6 @@ const Sidebar: React.FC = () => {
             </a>
           </Link>
         </li>
-
-        {isAdmin && (
-          <>
-            <li>
-              <Link href="/GerenciarUsuarios" legacyBehavior>
-                <a className={styles.link}>
-                  <FaUsers size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Gerenciar Usuários</span>
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/GerenciarAmbientes" legacyBehavior>
-                <a className={styles.link}>
-                  <FaBuilding size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Gerenciamento de Ambientes</span>
-                </a>
-              </Link>
-            </li>
-          </>
-        )}
-
         <li>
           <Link href="/perfil" legacyBehavior>
             <a className={styles.link}>
@@ -120,6 +112,24 @@ const Sidebar: React.FC = () => {
             </a>
           </Link>
         </li>
+        {isAdmin && (
+          <>
+            <li>
+              <Link href="/GerenciarUsuarios" legacyBehavior>
+                <a className={styles.link}>
+                  <FaUsers size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Gerenciar Usuários</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/GerenciarAmbientes" legacyBehavior>
+                <a className={styles.link}>
+                  <FaBuilding size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Gerenciamento de Ambientes</span>
+                </a>
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
       <div className={styles.footer}>
         <button onClick={toggleTheme} className={styles.themeButton}>

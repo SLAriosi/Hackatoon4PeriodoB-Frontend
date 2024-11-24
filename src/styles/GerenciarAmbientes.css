@@ -1,92 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 /* Layout Geral */
 .gerenciar-ambientes-page {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f9f9f9;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.gerenciar-ambientes-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Título */
+.gerenciar-ambientes-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Formulário */
+.form-container {
+  margin-bottom: 40px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-container button {
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-container button:hover {
+  background-color: #555;
+}
+
+/* Lista de Ambientes */
+.ambientes-list h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.ambientes-list p {
+  width: 80%;
+}
+
+.ambiente-item {
+  padding: 15px;
+  background: #fff;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ambiente-item h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.edit-button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+}
+
+.delete-button {
+  padding: 5px 10px;
+  background-color: #a72828;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #882121;
+}
+
+.div-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.loading-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner-icon {
+  font-size: 3rem;
+  color: #fff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .gerenciar-ambientes-content {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
+
+  100% {
+    transform: rotate(360deg);
   }
-  
-  /* Título */
-  .gerenciar-ambientes-content h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  /* Formulário */
-  .form-container {
-    margin-bottom: 40px;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
-  
-  .form-container input,
-  .form-container textarea {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .form-container button {
-    padding: 10px 20px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .form-container button:hover {
-    background-color: #555;
-  }
-  
-  /* Lista de Ambientes */
-  .ambientes-list h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-  }
-  
-  .ambiente-item {
-    padding: 15px;
-    background: #fff;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .ambiente-item h3 {
-    font-size: 1.2rem;
-    margin: 0;
-  }
-  
-  .ambiente-item button {
-    padding: 5px 10px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .ambiente-item button:hover {
-    background-color: #218838;
-  }
-  
+}

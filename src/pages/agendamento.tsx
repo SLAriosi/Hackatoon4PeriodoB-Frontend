@@ -1,27 +1,29 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import '../styles/Agendamento.css';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const Agendamento: React.FC = () => {
-  const environments = [
-    { id: 1, name: 'Biblioteca', description: 'Ambiente silencioso para leitura', icon: '📚', capacity: '50 pessoas', equipment: 'Wi-Fi, mesas de estudo' },
-    { id: 2, name: 'Salas de Aula', description: 'Salas para aulas e reuniões acadêmicas', icon: '🖊️', capacity: '30 pessoas', equipment: 'Projetor, quadro branco' },
-    { id: 3, name: 'AlphaLAB', description: 'Espaço para inovação e prototipagem', icon: '💡', capacity: '15 pessoas', equipment: 'Computadores, impressora 3D' },
-    { id: 4, name: 'Auditório', description: 'Espaço para palestras e eventos', icon: '🎤', capacity: '200 pessoas', equipment: 'Microfone, som, telão' },
-  ];
+
+  const URL_API = process.env.NEXT_PUBLIC_API_URL;
 
   const [selectedEnvironment, setSelectedEnvironment] = useState<number | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [PeriodoSelecionado, setPeriodoSelecionado] = useState<string | null>(null);
+  const [reservationToCancel, setReservationToCancel] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [reservations, setReservations] = useState<any[]>([]);
+  const [reservas, setReservas] = useState<any[]>([]);
+  const [availablePeriods, setAvailablePeriods] = useState<string[]>([]);
   const [isReserving, setIsReserving] = useState(false);
   const [error, setError] = useState('');
+  const [dataLivreItem, setDataLivreItem] = useState<any[]>([]);
   const [userName, setUserName] = useState('Diego Macedo');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [actionType, setActionType] = useState<'reserve' | 'cancel' | 'edit'>('reserve');
   const [reservationToEdit, setReservationToEdit] = useState<any | null>(null);
   const [editedReservation, setEditedReservation] = useState<any | null>(null);
+  const [ambientes, setAmbientes] = useState<any[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,62 +31,107 @@ const Agendamento: React.FC = () => {
     if (!token) {
       router.push('/login');
     }
+
+    const fetchReservas = async () => {
+      const response = await axios.get(`${URL_API}/ambientes_reservas`);
+      const data = await response.data;
+
+      setReservas(data);
+    }
+
+    fetchReservas();
+
+    const fetchAmbientes = async () => {
+      const response = await axios.get(`${URL_API}/ambientes`);
+      const data = await response.data;
+
+      setAmbientes(data);
+    };
+
+    fetchAmbientes();
+
   }, []);
 
-  const availableTimes = [
-    { id: 1, time: '10:00' },
-    { id: 2, time: '11:00' },
-    { id: 3, time: '12:00' },
-    { id: 4, time: '14:00' },
+  useEffect(() => {
+    try {
+
+      const fetchPeriodosDisponiveis = async () => {
+
+        const response = await axios.get(`${URL_API}/ambientes_reservas/${selectedEnvironment}/${selectedDate}`);
+        const data = await response.data;
+        setDataLivreItem(data);
+      }
+      if (selectedDate && selectedEnvironment) {
+        fetchPeriodosDisponiveis();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [selectedDate, reservas])
+
+  const avaiablePeriods = [
+    { id: 1, periodo: 'MANHÃ' },
+    { id: 2, periodo: 'TARDE' },
+    { id: 3, periodo: 'NOITE' },
   ];
 
-  const handleReserve = () => {
-    if (!selectedEnvironment || !selectedTime || !selectedDate) {
-      setError('Selecione um ambiente, horário e data válidos.');
-      return;
+  const getAvailablePeriods = () => {
+    const reservedPeriods = reservas
+      .filter(reserva => reserva.data_reserva === selectedDate && reserva.ambiente_id === selectedEnvironment?.id)
+      .map(reserva => reserva.periodo);
+
+    if (!Array.isArray(periodo)) {
+      console.error("Expected 'periodo' to be an array, but got:", typeof periodo);
+      return [];
     }
 
-    setIsReserving(true);
-    setTimeout(() => {
-      const newReservation = {
-        date: selectedDate,
-        time: selectedTime,
-        user: userName,
-        environment: selectedEnvironment,
-      };
-      setReservations([...reservations, newReservation]);
-      setIsReserving(false);
-      setSelectedTime(null);
-      setSelectedEnvironment(null);
-      setSelectedDate(null);
+    return periodo.filter(periodo => !reservedPeriods.includes(periodo));
+  };
+
+  const handleReserve = async () => {
+    try {
+      if (!selectedEnvironment || !PeriodoSelecionado || !selectedDate) {
+        setError('Selecione um ambiente, horário e data válidos.');
+        return;
+      }
+
+      await axios.post(`${URL_API}/ambientes_reservas`, {
+        ambiente_id: selectedEnvironment,
+        data_reserva: selectedDate,
+        periodo: PeriodoSelecionado,
+        user_id: localStorage.getItem('userId'),
+      });
+      router.reload();
+
+    } catch (error) {
+      alert(error.response.data.error);
       setShowConfirmation(false);
-      alert('Reserva realizada com sucesso!');
-    }, 1000); // Simulando delay de reserva
-  };
-
-  const handleCancelReservation = () => {
-    if (reservationToCancel) {
-      setReservations(reservations.filter((res) => res !== reservationToCancel));
-      setReservationToCancel(null);
-      alert('Reserva cancelada com sucesso!');
+      router.reload();
     }
   };
 
-  const handleEditReservation = () => {
-    if (!editedReservation) {
-      setError('Por favor, edite todos os campos antes de salvar.');
-      return;
+  const handleCancelReservation = async () => {
+    try {
+      if (reservationToCancel) {
+        await axios.delete(`${URL_API}/ambientes_reservas/${reservationToCancel.id}`);
+        alert('Reserva cancelada com sucesso!');
+        router.reload();
+      }
+    } catch (error) {
+      alert(error.response.data.error);
+      router.reload();
     }
+  };
 
-    setReservations(
-      reservations.map((res) =>
-        res === reservationToEdit ? { ...res, ...editedReservation } : res
-      )
-    );
-    setReservationToEdit(null);
-    setEditedReservation(null);
-    setShowConfirmation(false);
-    alert('Reserva editada com sucesso!');
+  const handleEditReservation = async () => {
+    try {
+      await axios.put(`${URL_API}/ambientes_reservas/${editedReservation.id}`, editedReservation);
+      alert('Reserva Editada com sucesso!');
+      router.reload();
+    } catch (error) {
+      alert(error.response.data.error);
+      router.reload();
+    }
   };
 
   const openConfirmationModal = (action: 'reserve' | 'cancel' | 'edit', reservation?: any) => {
@@ -100,7 +147,6 @@ const Agendamento: React.FC = () => {
 
   const closeConfirmationModal = () => {
     setShowConfirmation(false);
-    setReservationToCancel(null);
     setReservationToEdit(null);
   };
 
@@ -112,40 +158,40 @@ const Agendamento: React.FC = () => {
     setEditedReservation((prev) => ({ ...prev, date: event.target.value }));
   };
 
-  const handleEditedTimeChange = (time: string) => {
-    setEditedReservation((prev) => ({ ...prev, time }));
+  const handleEditedTimeChange = (periodo: string) => {
+    setEditedReservation((prev) => ({ ...prev, periodo }));
   };
 
   const handleEditedEnvironmentChange = (envId: number) => {
     setEditedReservation((prev) => ({ ...prev, environment: envId }));
   };
-
-  const isTimeAvailable = (time: string) => {
-    return !reservations.some(
-      (res) => res.environment === selectedEnvironment && res.date === selectedDate && res.time === time
-    );
-  };
-
   return (
     <div className="agendamento-container">
       <Sidebar />
       <div className="content">
         <h1>Agendar Reserva</h1>
 
-        {/* Seleção de Ambiente */}
         <div className="environments-container">
-          {environments.map((env) => (
+          {ambientes.map((env) => (
             <div
               key={env.id}
-              onClick={() => setSelectedEnvironment(env.id)}
+              onClick={() => {
+                setSelectedEnvironment(env.id)
+                setSelectedDate('');
+              }}
               className={`environment-card ${selectedEnvironment === env.id ? 'selected' : ''}`}
               title={env.description}
+              style={{ borderBottom: "4px solid #0066b3" }}
             >
               <div className="environment-icon">{env.icon}</div>
               <h3>{env.name}</h3>
               <p>{env.description}</p>
-              <p><strong>Capacidade:</strong> {env.capacity}</p>
-              <p><strong>Equipamento:</strong> {env.equipment}</p>
+              <p><strong>Capacidade:</strong> {env.capacidade}</p>
+              <p><strong>Equipamento:</strong> {env.materiais}</p>
+              <div
+                style={{ color: "#0066b3", width: "100%", textAlign: "center" }}
+              >
+              </div>
             </div>
           ))}
         </div>
@@ -165,14 +211,13 @@ const Agendamento: React.FC = () => {
         {selectedEnvironment && selectedDate && (
           <div className="times-section">
             <h3>Horários Disponíveis</h3>
-            {availableTimes.map((time) => (
+            {avaiablePeriods.map((periodo) => (
               <button
-                key={time.id}
-                disabled={!isTimeAvailable(time.time)}
-                onClick={() => setSelectedTime(time.time)}
-                className={`time-slot ${selectedTime === time.time ? 'selected' : ''} ${!isTimeAvailable(time.time) ? 'disabled' : ''}`}
+                disabled={dataLivreItem?.includes(periodo.periodo)}
+                onClick={() => setPeriodoSelecionado(periodo.periodo)}
+                className={`time-slot ${PeriodoSelecionado === periodo.periodo ? 'selected' : ''} ${dataLivreItem?.includes(periodo.periodo) ? 'disabled' : ''}`}
               >
-                {time.time}
+                {periodo.periodo}
               </button>
             ))}
           </div>
@@ -184,26 +229,24 @@ const Agendamento: React.FC = () => {
         {/* Botão para confirmar a reserva */}
         <button
           onClick={() => openConfirmationModal('reserve')}
-          disabled={!selectedTime || !selectedEnvironment || !selectedDate || isReserving}
+          disabled={!PeriodoSelecionado || !selectedEnvironment || !selectedDate || isReserving}
           className="open-modal-btn"
         >
           {isReserving ? 'Carregando...' : 'Confirmar Reserva'}
         </button>
 
-        {/* Exibindo as reservas realizadas */}
-        <div className="reservations-container">
+        <div className="reservas-container">
           <h3>Reservas Realizadas</h3>
-          {reservations.length === 0 ? (
+          {reservas.length === 0 ? (
             <p>Nenhuma reserva realizada ainda.</p>
           ) : (
             <ul>
-              {reservations.map((res, index) => {
-                const environmentName = environments.find((env) => env.id === res.environment)?.name || 'Ambiente desconhecido';
+              {reservas.map((res, index) => {
                 return (
                   <li key={index} className="reservation-item">
                     <div>
-                      <strong>Data:</strong> {res.date} <strong>Horário:</strong> {res.time}{' '}
-                      <strong>Ambiente:</strong> {environmentName} <strong>Feito por:</strong> {res.user}
+                      <strong>Data:</strong> {res.data_reserva} <strong>Período:</strong> {res.periodo}{' '}
+                      <strong>Ambiente:</strong> {res.ambiente.name} <strong>Feito por:</strong> {res.user.name}
                     </div>
                     <button onClick={() => openConfirmationModal('cancel', res)}>Cancelar</button>
                     <button
@@ -250,17 +293,17 @@ const Agendamento: React.FC = () => {
                     <label>Data:</label>
                     <input
                       type="date"
-                      value={editedReservation?.date || ''}
+                      value={editedReservation?.data_reserva || ''}
                       onChange={handleEditedDateChange}
                     />
-                    <label>Hora:</label>
+                    <label>Período:</label>
                     <select
-                      value={editedReservation?.time || ''}
+                      value={editedReservation?.periodo || ''}
                       onChange={(e) => handleEditedTimeChange(e.target.value)}
                     >
-                      {availableTimes.map((time) => (
-                        <option key={time.id} value={time.time}>
-                          {time.time}
+                      {avaiablePeriods.map((periodo) => (
+                        <option key={periodo.id} value={periodo.periodo}>
+                          {periodo.periodo}
                         </option>
                       ))}
                     </select>
@@ -269,9 +312,9 @@ const Agendamento: React.FC = () => {
                       value={editedReservation?.environment || ''}
                       onChange={(e) => handleEditedEnvironmentChange(parseInt(e.target.value))}
                     >
-                      {environments.map((env) => (
+                      {ambientes.map((env) => (
                         <option key={env.id} value={env.id}>
-                          {env.name}
+                          {env.name} {console.log(env)}
                         </option>
                       ))}
                     </select>
