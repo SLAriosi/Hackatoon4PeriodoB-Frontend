@@ -166,7 +166,7 @@ const Agendamento: React.FC = () => {
     setEditedReservation((prev) => ({ ...prev, environment: envId }));
   };
   return (
-    <div className="agendamento-container">
+    <div className="agendamento-container" style={{ fontFamily: 'Poppins, sans-serif' }}>
       <Sidebar />
       <div className="content">
         <h1>Agendar Reserva</h1>

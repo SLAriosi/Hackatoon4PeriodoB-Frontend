@@ -104,7 +104,7 @@ const GerenciarUsuarios: React.FC = () => {
   const paginatedUsuarios = filteredUsuarios.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="perfil-page">
+    <div className="perfil-page" style={{ fontFamily: 'Poppins, sans-serif' }}>
       {isLoading && (
         <div className="loading-modal">
           <div className="loading-spinner">

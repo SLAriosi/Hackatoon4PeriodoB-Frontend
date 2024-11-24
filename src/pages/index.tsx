@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'; // Importando o CSS da Home
 
 const Home: React.FC = () => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ fontFamily: 'Poppins, sans-serif' }}>
       <div className={styles.content}>
         <h1 className={styles.title}>Bem-vindo ao Sistema de Reservas</h1>
         <p className={styles.description}>Faça login ou registre-se para começar.</p>
