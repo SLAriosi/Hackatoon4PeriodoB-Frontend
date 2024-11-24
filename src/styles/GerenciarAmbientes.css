@@ -34,7 +34,8 @@
     margin-bottom: 20px;
   }
   
-  .form-container input,
+  .form-container input, 
+  .form-container select,
   .form-container textarea {
     width: 100%;
     margin-bottom: 10px;

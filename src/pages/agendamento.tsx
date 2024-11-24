@@ -176,10 +176,12 @@ const Agendamento: React.FC = () => {
             <div
               key={env.id}
               onClick={() => {
-                setSelectedEnvironment(env.id)
-                setSelectedDate('');
+                if (env.is_active) {
+                  setSelectedEnvironment(env.id);
+                  setSelectedDate('');
+                }
               }}
-              className={`environment-card ${selectedEnvironment === env.id ? 'selected' : ''}`}
+              className={`environment-card ${selectedEnvironment === env.id ? 'selected' : ''} ${env.is_active === 0 ? 'inactive' : ''}`}
               title={env.description}
               style={{ borderBottom: "4px solid #0066b3" }}
             >
@@ -188,6 +190,7 @@ const Agendamento: React.FC = () => {
               <p>{env.description}</p>
               <p><strong>Capacidade:</strong> {env.capacidade}</p>
               <p><strong>Equipamento:</strong> {env.materiais}</p>
+              {env.is_active === 0 && <h3><strong>Manutenção</strong></h3>}
               <div
                 style={{ color: "#0066b3", width: "100%", textAlign: "center" }}
               >

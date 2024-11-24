@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import '../styles/Notificacoes.css';
+import { useRouter } from 'next/router';
+import { FaSpinner } from 'react-icons/fa';
+import axios from 'axios';
 
 interface Notificacao {
   id: number;
@@ -10,24 +13,38 @@ interface Notificacao {
   lida: boolean;
 }
 
+const URL_API = process.env.NEXT_PUBLIC_API_URL;
+
 const Notificacoes = () => {
-  const [notificacoes, setNotificacoes] = useState<Notificacao[]>([
-    { id: 1, tipo: 'reserva', mensagem: 'Sua reserva foi feita com sucesso!', tempo: '10 minutos atrás', lida: false },
-    { id: 2, tipo: 'alteracao', mensagem: 'O horário da sua reserva foi alterado para as 16h.', tempo: '1 hora atrás', lida: false },
-    { id: 3, tipo: 'cancelamento', mensagem: 'Sua reserva foi cancelada.', tempo: '2 horas atrás', lida: false },
-    { id: 4, tipo: 'lembrete', mensagem: 'Lembrete: Sua reserva começa em 30 minutos.', tempo: '5 minutos atrás', lida: false },
-  ]);
+  const [notificacoes, setNotificacoes] = useState<Notificacao[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        router.push('/login');
+        return;
+      }
+
+      const usuario_id = localStorage.getItem('userId');
+      const response = await axios.get(`${URL_API}/notificacoes/usuario/${usuario_id}`);
+      setNotificacoes(response.data);
+    };
+
+    fetchData();
+  }, []);
 
   // Função para marcar a notificação como lida
-  const marcarComoLida = (id: number) => {
-    setNotificacoes(prevState => prevState.map(notificacao => 
-      notificacao.id === id ? { ...notificacao, lida: true } : notificacao
-    ));
+  const marcarComoLida = async (id: number) => {
+    await axios.put(`${URL_API}/notificacoes/${id}`, { lida: true });
+    router.reload();
   };
 
   // Função para excluir notificação
-  const excluirNotificacao = (id: number) => {
-    setNotificacoes(prevState => prevState.filter(notificacao => notificacao.id !== id));
+  const excluirNotificacao = async (id: number) => {
+    await axios.delete(`${URL_API}/notificacoes/${id}`);
+    router.reload();
   };
 
   // Função para renderizar o tipo de notificação
