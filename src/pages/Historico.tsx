@@ -87,7 +87,7 @@ const Historico: React.FC = () => {
   };
 
   return (
-    <div className={styles.historicoContainer}>
+    <div className={styles.historicoContainer} style={{ fontFamily: 'Poppins, sans-serif' }}>
       <Sidebar />
       <div className={styles.historicoContent}>
         <h1 className={styles.historicoTitle}>Histórico de Reservas</h1>

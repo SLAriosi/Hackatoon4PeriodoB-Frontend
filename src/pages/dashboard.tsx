@@ -240,7 +240,7 @@ const Dashboard: React.FC = () => {
   const totalReservations = reservations.length;
 
   return (
-    <div className={styles.dashboardContainer}>
+    <div className={styles.dashboardContainer} style={{ fontFamily: 'Poppins, sans-serif' }}>
       <Sidebar />
       <div className={styles.dashboardContent}>
         <h1 className={styles.dashboardTitle}>Dashboard de Reservas</h1>

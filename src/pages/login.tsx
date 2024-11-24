@@ -33,7 +33,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ fontFamily: 'Poppins, sans-serif' }}>
       <div className={styles.card}>
         <div className={styles.logoContainer}>
           <img src="/images/LogoUnialfa.png" alt="Logo" className={styles.logo} />

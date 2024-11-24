@@ -59,7 +59,7 @@ const Notificacoes = () => {
   };
 
   return (
-    <div className="notificacoes-container">
+    <div className="notificacoes-container" style={{ fontFamily: 'Poppins, sans-serif' }}>
       <Sidebar />
       <div className="notificacoes-content">
         <h1>Notificações</h1>

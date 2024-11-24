@@ -96,7 +96,7 @@ const GerenciarAmbientes: React.FC = () => {
   };
 
   return (
-    <div className="gerenciar-ambientes-page">
+    <div className="gerenciar-ambientes-page" style={{ fontFamily: 'Poppins, sans-serif' }}>
       {isLoading && (
         <div className="loading-modal">
           <div className="loading-spinner">
