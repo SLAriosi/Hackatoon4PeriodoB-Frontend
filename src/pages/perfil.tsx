@@ -15,7 +15,6 @@ interface Usuario {
 }
 
 const Perfil: React.FC = () => {
-  const [senhaAtual, setSenhaAtual] = useState('');
   const [usuario, setUsuario] = useState<Usuario>({ name: '', email: '', senha: '' });
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
@@ -33,10 +32,6 @@ const Perfil: React.FC = () => {
       const userId = localStorage.getItem('userId');
       const response = await axios.get(`${URL_API}/users/${userId}`);
 
-      console.log('===========');
-      console.log(response.data);
-      console.log('===========');
-
       setUsuario({
         name: response.data.name,
         email: response.data.email,
@@ -49,10 +44,6 @@ const Perfil: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleSenhaAtualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSenhaAtual(e.target.value);
-  };
-
   const handleConfirmarSenhaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmarSenha(e.target.value);
   };
@@ -62,7 +53,7 @@ const Perfil: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!senhaAtual || !novaSenha || !confirmarSenha) {
+    if (!novaSenha || !confirmarSenha) {
       alert('Por favor, preencha todos os campos de senha.');
       return;
     }
@@ -85,12 +76,12 @@ const Perfil: React.FC = () => {
         password: novaSenha,
         password_confirmation: confirmarSenha
       });
-      setIsLoading(false);
     } catch (error) {
       console.warn(error);
-      setIsLoading(false);
     }
     alert('Dados atualizados com sucesso!');
+    router.push('/dashboard');
+    setIsLoading(false);
   };
 
   return (
@@ -124,15 +115,6 @@ const Perfil: React.FC = () => {
                   id="email"
                   value={usuario.email}
                   onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="senhaAtual">Senha Atual</label>
-                <input
-                  type="password"
-                  id="senhaAtual"
-                  value={senhaAtual}
-                  onChange={handleSenhaAtualChange}
                 />
               </div>
               <div className="form-group">

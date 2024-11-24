@@ -24,6 +24,7 @@ const Login: React.FC = () => {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userId', response.data.user_id);
+        localStorage.setItem('role', response.data.role);
         router.push('/dashboard');
       }
     } catch (err) {
