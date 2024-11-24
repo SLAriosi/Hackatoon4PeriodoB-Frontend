@@ -113,7 +113,7 @@
 
 /* Estilo do botão de confirmação */
 .open-modal-btn {
-    background-color: #28a745;
+    background-color: #0a50ca;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -128,12 +128,12 @@
 }
 
 .open-modal-btn:disabled {
-    background-color: #ccc;
+    background-color: #1c95f2;
     cursor: not-allowed;
 }
 
 .open-modal-btn:hover {
-    background-color: #218838;
+    background-color: #0a50ca;
 }
 
 /* Estilo das reservas realizadas */

@@ -291,7 +291,8 @@ const Dashboard: React.FC = () => {
                     <th>Ações</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className='acoes-css'>
+                  
                   {currentReservations.map((res) => (
                     <tr key={res.id}>
                       <td>{res.environment}</td>

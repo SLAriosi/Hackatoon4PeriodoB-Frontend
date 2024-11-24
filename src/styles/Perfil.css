@@ -50,7 +50,7 @@
 .btn-atualizar {
   width: 100%;
   padding: 10px 20px;
-  background-color: #000;
+  background-color: #0a50ca;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -60,7 +60,7 @@
 }
 
 .btn-atualizar:hover {
-  background-color: #555;
+  background-color: #1c95f2;
 }
 
 .loading-modal {

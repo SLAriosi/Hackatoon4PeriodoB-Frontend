@@ -47,7 +47,7 @@
 
 .pdfButton, .csvButton {
   padding: 12px 18px;
-  background-color: #000; /* Cor de fundo preta */
+  background-color: #0a50ca; /* Cor de fundo preta */
   color: white;
   border: none;
   border-radius: 5px;
@@ -58,7 +58,7 @@
 }
 
 .pdfButton:hover, .csvButton:hover {
-  background-color: #555; /* Tom mais claro de preto ao passar o mouse */
+  background-color: #1c95f2; /* Tom mais claro de preto ao passar o mouse */
   transform: translateY(-2px); /* Levanta o botão ao passar o mouse */
 }
 

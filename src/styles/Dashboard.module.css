@@ -6,6 +6,7 @@
   flex-direction: row; /* Coluna para telas maiores */
   min-height: 100vh;
   background-color: #f8f9fa;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 /* Conteúdo principal */
@@ -14,6 +15,7 @@
   padding: 15px;
   background-color: #f8f9fa;
   overflow-x: hidden; /* Evita overflow */
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 /* Título do Dashboard */
@@ -22,6 +24,7 @@
   color: #333;
   text-align: center;
   margin-bottom: 20px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 /* Filtros e Botões */
@@ -29,6 +32,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 /* Filtros */
@@ -36,6 +40,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .filtersContainer .filters {
@@ -43,6 +48,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 10px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .filters input,
@@ -53,6 +59,7 @@
   border-radius: 5px;
   width: 100%;
   max-width: 180px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .filters input[type='date'] {
@@ -67,10 +74,11 @@
   display: flex;
   gap: 10px;
   justify-content: center;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .downloadButtons button {
-  background-color: #000;
+  background-color: #0a50ca;
   color: white;
   padding: 8px 15px;
   border: none;
@@ -79,10 +87,11 @@
   transition: background-color 0.3s;
   font-size: 0.9rem;
   min-width: 120px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .downloadButtons button:hover {
-  background-color: #444;
+  background-color: #1c95f2;
 }
 
 /* Tabela de Reservas */
@@ -91,17 +100,20 @@
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 15px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .reservationsTableContainer h2 {
   font-size: 1.5rem;
   margin-bottom: 15px;
   color: #333;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .reservationsTable {
   width: 100%;
   border-collapse: collapse;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .reservationsTable th,
@@ -110,12 +122,14 @@
   padding: 8px;
   border-bottom: 1px solid #ddd;
   font-size: 0.9rem;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .reservationsTable th {
   background-color: #f1f1f1;
   color: #333;
   font-weight: bold;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .reservationsTable tr:hover {
@@ -129,8 +143,9 @@
   border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.3s;
-  background-color: #000;
+  background-color: #0a50ca;
   color: white;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .reservationsTable button:disabled {
@@ -139,7 +154,7 @@
 }
 
 .reservationsTable button:not(:disabled):hover {
-  background-color: #444;
+  background-color: #1c95f2;
 }
 
 /* Paginação */
@@ -148,6 +163,7 @@
   justify-content: center;
   gap: 5px;
   margin-top: 15px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .pagination button {
@@ -158,18 +174,26 @@
   color: #333;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+}
+
+.acoes-css button {
+  gap: 10px;
+  margin: 10px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .pagination button:hover {
-  background-color: #000;
+  background-color: #1c95f2;
   color: white;
 }
 
 .pagination .active {
-  background-color: #000;
+  background-color: #0a50ca;
   color: white;
   font-weight: bold;
   border: none;
+  border-radius: 20px;
 }
 
 /* Gráficos */
@@ -179,12 +203,14 @@
   gap: 20px;
   justify-content: center;
   padding: 15px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .chartCanvas {
   width: 100%;
   max-width: 350px;
   height: 200px;
+  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 /* Media Queries para Responsividade */
@@ -252,4 +278,9 @@
   .pagination button {
     padding: 6px 10px;
   }
+}
+
+.acoes-css button {
+  gap: 10px;
+  margin: 10px;
 }
