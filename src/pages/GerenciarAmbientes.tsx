@@ -3,7 +3,7 @@ import axios from 'axios';
 import Sidebar from '../components/Sidebar';
 import '../styles/GerenciarAmbientes.css';
 import { useRouter } from 'next/router';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaEdit, FaTrash } from 'react-icons/fa'; // Import the icons
 
 interface Ambiente {
   id: number;
@@ -24,7 +24,6 @@ const GerenciarAmbientes: React.FC = () => {
 
   useEffect(() => {
     const fetchAmbientes = async () => {
-
       const response = await axios.get(`${URL_API}/ambientes`);
       const data = await response.data;
       setAmbientes(data);
@@ -159,8 +158,8 @@ const GerenciarAmbientes: React.FC = () => {
                   <h3 style={{ marginBottom: '20px' }}>{ambiente.name}</h3>
                   <p style={{ marginBottom: '20px' }}>{ambiente.description}</p>
                   <div className="div-buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                    <button className="edit-button" onClick={() => handleEditAmbiente(ambiente.id)} style={{ backgroundColor: 'yellow' }}>Editar</button>
-                    <button className="delete-button" onClick={() => confirmDelete(ambiente.id)} style={{ backgroundColor: 'red' }}>Deletar</button>
+                    <FaEdit onClick={() => handleEditAmbiente(ambiente.id)} style={{ cursor: 'pointer', marginRight: '10px', color: 'black' }} />
+                    <FaTrash onClick={() => confirmDelete(ambiente.id)} style={{ cursor: 'pointer', color: 'red' }} />
                   </div>
                 </div>
               ))}

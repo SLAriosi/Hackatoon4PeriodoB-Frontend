@@ -29,8 +29,6 @@ const Sidebar: React.FC = () => {
 
   const URL_API = process.env.NEXT_PUBLIC_API_URL;
 
-
-
   useEffect(() => {
     const userRole = localStorage.getItem('role');
     if (userRole === 'ADMINISTRADOR') {
@@ -60,11 +58,11 @@ const Sidebar: React.FC = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-
   const handleLogout = () => {
     localStorage.clear();
     router.push('/login');
   };
+
   return (
     <div className={`${styles.sidebar} ${darkMode ? styles.dark : styles.light}`}>
       <div className={styles.logo} onClick={toggleCollapse}>

@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import '../styles/Agendamento.css';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { FaSpinner, FaEdit, FaTrash } from 'react-icons/fa'; // Import the icons
 
 const Agendamento: React.FC = () => {
 
@@ -192,6 +193,7 @@ const Agendamento: React.FC = () => {
   const handleEditedEnvironmentChange = (envId: number) => {
     setEditedReservation((prev) => ({ ...prev, ambiente_id: envId }));
   };
+
   return (
     <div className="agendamento-container" style={{ fontFamily: 'Poppins, sans-serif' }}>
       <Sidebar />
@@ -241,9 +243,10 @@ const Agendamento: React.FC = () => {
         {/* Seleção de Horário */}
         {selectedEnvironment && selectedDate && (
           <div className="times-section">
-            <h3>Horários Disponíveis</h3>
+            <h3>Períodos Disponíveis: </h3>
             {avaiablePeriods.map((periodo) => (
               <button
+                key={periodo.id}
                 disabled={dataLivreItem?.includes(periodo.periodo)}
                 onClick={() => setPeriodoSelecionado(periodo.periodo)}
                 className={`time-slot ${PeriodoSelecionado === periodo.periodo ? 'selected' : ''} ${dataLivreItem?.includes(periodo.periodo) ? 'disabled' : ''}`}
@@ -279,16 +282,13 @@ const Agendamento: React.FC = () => {
                       <strong>Data:</strong> {res.data_reserva} <strong>Período:</strong> {res.periodo}{' '}
                       <strong>Ambiente:</strong> {res.ambiente.name} <strong>Feito por:</strong> {res.user.name}
                     </div>
-                    <button onClick={() => openConfirmationModal('cancel', res)}>Cancelar</button>
-                    <button
-                      onClick={() => openConfirmationModal('edit', res)}
-                      className="edit-btn"
-                      style={{ backgroundColor: 'yellow', transition: 'background-color 0.3s' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'darkorange')}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'yellow')}
-                    >
-                      Editar
-                    </button>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <FaEdit
+                        onClick={() => openConfirmationModal('edit', res)}
+                        className="edit-btn"
+                      />
+                      <FaTrash onClick={() => openConfirmationModal('cancel', res)} className="delete-btn" />
+                    </div>
                   </li>
                 );
               })}
@@ -305,8 +305,8 @@ const Agendamento: React.FC = () => {
                   <h2>Confirmar Reserva</h2>
                   <p>Você deseja confirmar a reserva?</p>
                   <div className="modal-buttons">
-                    <button onClick={handleReserve} className="confirm-btn">Confirmar</button>
                     <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+                    <button onClick={handleReserve} className="confirm-btn">Confirmar</button>
                   </div>
                 </>
               )}
@@ -315,8 +315,8 @@ const Agendamento: React.FC = () => {
                   <h2>Cancelar Reserva</h2>
                   <p>Tem certeza que deseja cancelar esta reserva?</p>
                   <div className="modal-buttons">
-                    <button onClick={handleCancelReservation} className="confirm-btn">Confirmar</button>
                     <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+                    <button onClick={handleCancelReservation} className="confirm-btn">Confirmar</button>
                   </div>
                 </>
               )}
@@ -354,8 +354,8 @@ const Agendamento: React.FC = () => {
                     </select>
                   </div>
                   <div className="modal-buttons">
-                    <button onClick={handleEditReservation} className="confirm-btn">Salvar Alterações</button>
                     <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+                    <button onClick={handleEditReservation} className="confirm-btn">Salvar</button>
                   </div>
                 </>
               )}

@@ -2,6 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+/* General styles */
 body {
     font-family: 'Poppins', sans-serif;
 }
@@ -30,6 +31,8 @@ body {
     font-size: 2rem;
     margin-bottom: 20px;
     color: #333;
+    display: flex;
+    justify-content: center;
 }
 
 /* Estilo do container de ambientes */
@@ -90,8 +93,9 @@ body {
     background-color: #000;
     color: #fff;
     border: none;
-    padding: 10px;
-    margin: 5px;
+    padding: 8px;
+    margin: 15px;
+    margin-left: 5px;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -123,9 +127,9 @@ body {
 
 /* Estilo do botão de confirmação */
 .open-modal-btn {
-    background-color: #0a50ca;
+    background-color: #02cc3b;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 30px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -140,12 +144,11 @@ body {
 }
 
 .open-modal-btn:disabled {
-    background-color: #1c95f2;
+    background-color: #000;
     cursor: not-allowed;
 }
-
 .open-modal-btn:hover {
-    background-color: #0a50ca;
+    background-color:rgb(3, 138, 25);
 }
 
 /* Estilo das reservas realizadas */
@@ -216,23 +219,68 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    z-index: 1000;
 }
 
 .modal-content {
-    background-color: white;
+    background: white;
     padding: 20px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 100%;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px; /* Reduced the max-width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #666;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.confirm-btn, .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-btn {
+    background-color: #28a745; /* Green color for confirm */
+    color: white;
+}
+
+.confirm-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-btn {
+    background-color: #dc3545; /* Red color for cancel */
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
 }
 
 @keyframes fadeIn {
@@ -245,31 +293,33 @@ body {
     }
 }
 
-.modal-buttons button {
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
+/* Edit fields styles */
+.edit-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.edit-fields label {
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+}
+
+.edit-fields input,
+.edit-fields select {
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    width: 100%;
 }
 
-.modal-buttons .confirm-btn {
-    background-color: #28a745;
-    color: white;
-}
-
-.modal-buttons .confirm-btn:hover {
-    background-color: #218838;
-}
-
-.modal-buttons .cancel-btn {
-    background-color: #dc3545;
-    color: white;
-}
-
-.modal-buttons .cancel-btn:hover {
-    background-color: #c82333;
+.edit-fields input:focus,
+.edit-fields select:focus {
+    border-color: #0a50ca;
+    outline: none;
 }
 
 /* Responsividade */
@@ -362,15 +412,17 @@ body {
 }
 
 .edit-btn {
-    background-color: #007bff;
-    color: white;
+    color: black; /* Black color for edit */
     padding: 5px 10px;
     border: none;
     cursor: pointer;
 }
 
-.edit-btn:hover {
-    background-color: #0056b3;
+.delete-btn {
+    color: red; /* Red color for delete */
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
 }
 
 .modal-buttons {
@@ -385,4 +437,21 @@ body {
     /* Exemplo de cor de texto para inativos */
     border: 1px solid #f5c6cb;
     /* Exemplo de borda para inativos */
+}
+
+/* Other styles */
+.flex-direction-column {
+    flex-direction: column;
+    font-size: 0.9rem;
+}
+
+.time-slot {
+    width: 100%;
+    padding: 8px;
+    margin: 15px;
+    margin-left: 5px;
+}
+
+.open-modal-btn {
+    font-size: 1rem;
 }

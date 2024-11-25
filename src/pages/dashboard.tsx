@@ -38,8 +38,6 @@ const Dashboard: React.FC = () => {
     const permissao = (localStorage.getItem('role'));
     if (permissao) {
       setRole(permissao);
-    } else {
-
     }
   }, []);
 
@@ -105,7 +103,6 @@ const Dashboard: React.FC = () => {
         return resDate >= start && resDate <= end;
       });
     }
-
 
     return updatedReservations;
   }, [searchQuery, reservations, startDate, endDate]);
@@ -179,16 +176,24 @@ const Dashboard: React.FC = () => {
   // Função para gerar e baixar PDF
   const handleDownloadPDF = (): void => {
     const doc = new jsPDF();
+    doc.setFontSize(10); // Set the font size to a smaller value
     doc.text('Relatório de Reservas', 20, 20);
+    let yPosition = 30;
     filteredReservations.forEach((res, index) => {
       doc.text(
         `${index + 1}. Ambiente: ${res.ambiente.name}, Data: ${new Date(res.data_reserva).toLocaleString()}, Curso: ${res.user.course}, Pessoa que Reservou: ${res.user.name}`,
         20,
-        30 + index * 10
+        yPosition
       );
+      yPosition += 10;
+      if (yPosition > 280) { // Check if the yPosition exceeds the page height
+        doc.addPage();
+        yPosition = 20; // Reset yPosition for the new page
+      }
     });
     doc.save('reservations_report.pdf');
   };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentReservations = filteredReservations.slice(indexOfFirstItem, indexOfLastItem);
@@ -206,41 +211,49 @@ const Dashboard: React.FC = () => {
 
         {/* Filtros e Lista de Reservas no topo */}
         <div className={styles.filtersAndReservations}>
-          {/* Filtros */}
-          <div className={styles.filtersContainer}>
-            <div className={styles.filters}>
-              <input
-                type="text"
-                placeholder="Filtrar por ambiente"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
+          {/* Download Buttons */}
+          {role === 'ADMINISTRADOR' && (
+            <div className={styles.downloadButtons}>
+              <button onClick={handleDownloadCSV}>Baixar CSV</button>
+              <button onClick={handleDownloadPDF}>Baixar PDF</button>
+              <button onClick={() => handleDownloadChart('reservationChartLine')}>Baixar Gráfico de Linhas</button>
             </div>
-
-            <div>
-              {role === 'ADMINISTRADOR' && (
-                <div className={styles.downloadButtons}>
-                  <button onClick={handleDownloadCSV}>Baixar CSV</button>
-                  <button onClick={handleDownloadPDF}>Baixar PDF</button>
-                  <button onClick={() => handleDownloadChart('reservationChartLine')}>Baixar Gráfico de Linhas</button>
-                </div>
-              )}
-            </div>
-          </div>
+          )}
 
           {/* Lista de Reservas */}
           <div className={styles.reservationsTableContainer}>
             <h2>Reservas ({filteredReservations.length} de {totalReservations})</h2>
+
+            {/* Filtros */}
+            <div className={styles.filtersContainer}>
+              <div className={styles.filters}>
+                <input
+                  type="text"
+                  placeholder="Filtrar por ambiente"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <div>
+                  <label htmlFor="startDate">De:</label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="endDate">Até:</label>
+                  <input
+                    type="date"
+                    id="endDate"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
             {loading ? (
               <p>Carregando...</p>
             ) : error ? (
@@ -251,6 +264,7 @@ const Dashboard: React.FC = () => {
                   <tr>
                     <th>Ambiente</th>
                     <th>Data</th>
+                    <th>Período</th> {/* Added Period column */}
                     <th>Curso</th>
                     <th>Pessoa que Reservou</th>
                   </tr>
@@ -258,12 +272,10 @@ const Dashboard: React.FC = () => {
                 <tbody className='acoes-css'>
 
                   {currentReservations.map((res) => (
-                    console.log('res'),
-                    console.log(res),
-                    console.log('res'),
                     <tr key={res.id}>
                       <td>{res.ambiente.name}</td>
-                      <td>{new Date(res.data_reserva).toLocaleString()}</td>
+                      <td>{new Date(res.data_reserva).toLocaleDateString()}</td> {/* Only display the date */}
+                      <td>{res.periodo}</td> {/* Display the period */}
                       <td>{res.user.course}</td>
                       <td>{res.user.name}</td>
                     </tr>

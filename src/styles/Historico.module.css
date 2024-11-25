@@ -3,7 +3,7 @@
 .historicoContainer {
   display: flex;
   background-color: #f4f7fa; /* Fundo mais claro para a página */
-  height: 100vh; /* Garante que a página ocupe toda a altura da tela */
+  min-height: 100vh; /* Garante que a página ocupe toda a altura da tela */
 }
 
 .historicoContent {
@@ -12,18 +12,22 @@
   flex: 1; /* Garante que o conteúdo ocupe o restante do espaço */
   border-radius: 8px; /* Bordas arredondadas para o conteúdo */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: margin-left 0.4s ease;
 }
 
 .historicoTitle {
   font-size: 28px;
   margin-bottom: 20px;
   color: #333; /* Cor mais escura para o título */
+  justify-content: center;
+  display: flex;
 }
 
 .filtersContainer {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap; /* Permite que os filtros se ajustem em telas menores */
 }
 
 .filterInput {
@@ -44,22 +48,26 @@
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap; /* Permite que os botões se ajustem em telas menores */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
 }
 
 .pdfButton, .csvButton {
   padding: 12px 18px;
-  background-color: #0a50ca; /* Cor de fundo preta */
+  background-color: #000; /* Cor de fundo preta */
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px; /* Define o tamanho da fonte igual para ambos os botões */
+  font-size: 12px; /* Define o tamanho da fonte igual para ambos os botões */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Efeito suave ao passar o mouse */
   text-decoration: none; /* Remove qualquer sublinhado */
 }
 
 .pdfButton:hover, .csvButton:hover {
-  background-color: #1c95f2; /* Tom mais claro de preto ao passar o mouse */
+  background-color: rgb(51, 51, 51); /* Tom mais claro de preto ao passar o mouse */
   transform: translateY(-2px); /* Levanta o botão ao passar o mouse */
 }
 
@@ -95,4 +103,77 @@
 
 .reservationTable td {
   word-wrap: break-word; /* Impede o overflow de conteúdo */
+}
+
+/* Responsividade: Ajustando para diferentes tamanhos de tela */
+@media (max-width: 1200px) {
+ 
+}
+
+@media (max-width: 1024px) {
+  
+}
+
+@media (max-width: 768px) {
+  .historicoContent {
+    padding: 10px;
+  }
+
+  .historicoTitle {
+    font-size: 24px;
+  }
+
+  .filterInput {
+    width: 100%; /* Ajuste para a largura total em telas menores */
+  }
+
+  .pdfButton, .csvButton {
+    width: 100%; /* Ajuste para a largura total em telas menores */
+  }
+}
+
+@media (max-width: 480px) {
+  .historicoContent {
+    padding: 5px;
+  }
+
+  .historicoTitle {
+    font-size: 20px;
+  }
+
+  .filterInput {
+    width: 100%; /* Ajuste para a largura total em telas menores */
+  }
+
+  .pdfButton, .csvButton {
+    width: 100%; /* Ajuste para a largura total em telas menores */
+  }
+
+  .reservationTable th, .reservationTable td {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 320px) {
+  .historicoContent {
+    padding: 3px;
+  }
+
+  .historicoTitle {
+    font-size: 18px;
+  }
+
+  .filterInput {
+    width: 100%; /* Ajuste para a largura total em telas menores */
+  }
+
+  .pdfButton, .csvButton {
+    width: 100%; /* Ajuste para a largura total em telas menores */
+  }
+
+  .reservationTable th, .reservationTable td {
+    padding: 6px;
+    font-size: 10px;
+  }
 }

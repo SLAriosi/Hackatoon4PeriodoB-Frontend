@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Importando axios
+import axios from 'axios';
 import { useRouter } from 'next/router';
-import { FaEnvelope, FaLock } from 'react-icons/fa'; // Importando os ícones de email e senha
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons
 import styles from '../styles/Login.module.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false); // State to control password visibility
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -14,12 +15,15 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      setError('Por favor, insira um email válido.');
+      return;
+    }
+
     try {
       const response = await axios.post(`${URL_API}/login`, { email, password });
-
-      console.log("response.data");
-      console.log(response.data);
-      console.log('response.data');
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
@@ -30,6 +34,10 @@ const Login: React.FC = () => {
     } catch (err) {
       setError('Credenciais inválidas');
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   return (
@@ -44,26 +52,29 @@ const Login: React.FC = () => {
           <div className={styles.inputContainer}>
             <FaEnvelope className={styles.icon} />
             <input
+              className={styles.input}
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={styles.input}
               required
             />
           </div>
           <div className={styles.inputContainer}>
             <FaLock className={styles.icon} />
             <input
-              type="password"
+              className={`${styles.input} ${styles.passwordInput}`}
+              type={passwordVisible ? 'text' : 'password'}
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={styles.input}
               required
             />
+            <span onClick={togglePasswordVisibility} className={styles.eyeIcon}>
+              {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
-          <button type="submit" className={styles.button} onClick={handleSubmit}>Login</button>
+          <button type="submit" className={styles.button}>Entrar</button>
         </form>
       </div>
     </div>

@@ -143,7 +143,7 @@ h1 {
 
 .search-filter button {
   padding: 10px;
-  background-color: #007bff;
+  background-color: #000;
   color: white;
   border: none;
   cursor: pointer;
@@ -151,7 +151,7 @@ h1 {
 }
 
 .search-filter button:hover {
-  background-color: #0056b3;
+  background-color: rgb(51, 51, 51);
 }
 
 .user-table {
@@ -300,5 +300,237 @@ form button:hover {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  transition: margin-left 0.4s ease;
+}
+
+.gerenciarUsuariosContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+}
+
+.gerenciarUsuariosContent {
+  flex: 1;
+  padding: 15px;
+  background-color: #f8f9fa;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  transition: margin-left 0.4s ease;
+}
+
+.gerenciarUsuariosTitle {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtersContainer input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.downloadButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.downloadButtons button {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.downloadButtons button:hover {
+  background-color: #333;
+}
+
+.usuariosTableContainer {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.usuariosTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.usuariosTable th,
+.usuariosTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.usuariosTable th {
+  background-color: #f2f2f2;
+}
+
+.usuariosTable tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.usuariosTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Paginação */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.paginationButton {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.paginationButton:hover {
+  background-color: #0056b3;
+}
+
+.paginationButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.active {
+  background-color: #0056b3;
+}
+
+/* Responsiveness */
+@media (max-width: 1200px) {
+  .gerenciarUsuariosContent {
+    padding: 10px;
+  }
+
+  .gerenciarUsuariosTitle {
+    font-size: 1.8rem;
+  }
+
+  .filtersContainer input {
+    font-size: 0.9rem;
+  }
+
+  .downloadButtons button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .usuariosTable th,
+  .usuariosTable td {
+    padding: 6px;
+  }
+
+  .paginationButton {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .gerenciarUsuariosContent {
+    padding: 8px;
+  }
+
+  .gerenciarUsuariosTitle {
+    font-size: 1.5rem;
+  }
+
+  .filtersContainer {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .filtersContainer input {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+
+  .downloadButtons {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .downloadButtons button {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+
+  .usuariosTable th,
+  .usuariosTable td {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .paginationButton {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gerenciarUsuariosContent {
+    padding: 5px;
+  }
+
+  .gerenciarUsuariosTitle {
+    font-size: 1.2rem;
+  }
+
+  .filtersContainer input {
+    font-size: 0.7rem;
+    padding: 6px;
+  }
+
+  .downloadButtons button {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
+
+  .usuariosTable th,
+  .usuariosTable td {
+    padding: 4px;
+    font-size: 0.7rem;
+  }
+
+  .paginationButton {
+    padding: 4px 8px;
+    font-size: 0.7rem;
   }
 }

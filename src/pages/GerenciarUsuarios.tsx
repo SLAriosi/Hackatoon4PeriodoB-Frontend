@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import '../styles/GerenciarUsuarios.css';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaEdit, FaTrash } from 'react-icons/fa'; // Import the icons
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
@@ -17,7 +17,7 @@ interface Usuario {
 
 const GerenciarUsuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-  const [formData, setFormData] = useState<Usuario>({
+  const [newUser, setNewUser] = useState<Usuario>({
     id: 0,
     name: '',
     role: 'ESTUDANTE',
@@ -51,16 +51,16 @@ const GerenciarUsuarios: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setNewUser({ ...newUser, [name]: value });
   };
 
   const handleSaveUsuario = () => {
-    if (!formData.name || !formData.email || !formData.password) {
+    if (!newUser.name || !newUser.email || !newUser.password) {
       alert('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
-    setFormData({
+    setNewUser({
       id: 0,
       name: '',
       role: 'ESTUDANTE',
@@ -72,15 +72,15 @@ const GerenciarUsuarios: React.FC = () => {
     setShowModal(false);
   };
 
-  const handleEditUsuario = (id: number) => {
+  const handleEdit = (id: number) => {
     const usuario = usuarios.find((u) => u.id === id);
     if (usuario) {
-      setFormData(usuario);
+      setNewUser(usuario);
       setShowModal(true);
     }
   };
 
-  const handleDeleteUsuario = async (id: number) => {
+  const handleDelete = async (id: number) => {
     const confirmDelete = window.confirm('Você tem certeza que deseja excluir este usuário?');
     if (confirmDelete) {
       await axios.delete(`${URL_API}/users/${id}`);
@@ -96,7 +96,7 @@ const GerenciarUsuarios: React.FC = () => {
 
   const handleUpdateUsuario = async (id: number) => {
     try {
-      await axios.put(`${URL_API}/users/${id}`, formData);
+      await axios.put(`${URL_API}/users/${id}`, newUser);
       router.reload();
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
@@ -151,22 +151,8 @@ const GerenciarUsuarios: React.FC = () => {
                     <td>{usuario.role}</td>
                     <td>{usuario.course}</td>
                     <td>
-                      <button
-                        onClick={() => handleEditUsuario(usuario.id)}
-                        style={{ backgroundColor: '#e2d712', transition: 'background-color 0.3s' }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#c4b200'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#e2d712'}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        onClick={() => handleDeleteUsuario(usuario.id)}
-                        style={{ backgroundColor: 'red', transition: 'background-color 0.3s' }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#cc0000'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'red'}
-                      >
-                        Excluir
-                      </button>
+                      <FaEdit onClick={() => handleEdit(usuario.id)} style={{ cursor: 'pointer', marginRight: '10px' }} />
+                      <FaTrash onClick={() => handleDelete(usuario.id)} style={{ cursor: 'pointer', color: 'red' }} />
                     </td>
                   </tr>
                 ))}
@@ -191,7 +177,7 @@ const GerenciarUsuarios: React.FC = () => {
                     <input
                       type="text"
                       name="name"
-                      value={formData.name}
+                      value={newUser.name}
                       onChange={handleInputChange}
                       placeholder="Nome"
                       required
@@ -199,7 +185,7 @@ const GerenciarUsuarios: React.FC = () => {
                     <input
                       type="email"
                       name="email"
-                      value={formData.email}
+                      value={newUser.email}
                       onChange={handleInputChange}
                       placeholder="Email"
                       required
@@ -207,7 +193,7 @@ const GerenciarUsuarios: React.FC = () => {
                     <input
                       type="password"
                       name="password"
-                      value={formData.password}
+                      value={newUser.password}
                       onChange={handleInputChange}
                       placeholder="Senha"
                       required
@@ -215,24 +201,24 @@ const GerenciarUsuarios: React.FC = () => {
                     <input
                       type="password"
                       name="password_confirmation"
-                      value={formData.password_confirmation}
+                      value={newUser.password_confirmation}
                       onChange={handleInputChange}
                       placeholder="Confirme a Senha"
                       required
                     />
-                    <select name="role" value={formData.role} onChange={handleInputChange}>
+                    <select name="role" value={newUser.role} onChange={handleInputChange}>
                       <option value="ESTUDANTE">Aluno</option>
                       <option value="PROFESSOR">Professor</option>
                       <option value="ADMINISTRADOR">Administração</option>
                     </select>
-                    {(formData.role === 'ESTUDANTE' || formData.role === 'PROFESSOR') && (
-                      <select name="course" value={formData.course} onChange={handleInputChange}>
+                    {(newUser.role === 'ESTUDANTE' || newUser.role === 'PROFESSOR') && (
+                      <select name="course" value={newUser.course} onChange={handleInputChange}>
                         {cursosDisponiveis.map(curso => (
                           <option key={curso} value={curso}>{curso}</option>
                         ))}
                       </select>
                     )}
-                    <button type="submit" onClick={() => handleUpdateUsuario(formData.id)}>Salvar</button>
+                    <button type="submit" onClick={() => handleUpdateUsuario(newUser.id)}>Salvar</button>
                   </form>
                 </div>
               </div>

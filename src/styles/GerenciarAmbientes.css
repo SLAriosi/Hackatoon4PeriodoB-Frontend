@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+body {
+  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  transition: margin-left 0.4s ease;
+}
+
 /* Layout Geral */
 .gerenciar-ambientes-page {
     display: flex;
@@ -46,7 +53,7 @@
   
   .form-container button {
     padding: 10px 20px;
-    background-color: #0a50ca;
+    background-color: #000;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -55,7 +62,7 @@
   }
   
   .form-container button:hover {
-    background-color: #1c95f2;
+    background-color: rgb(51, 51, 51);
   }
   
   /* Lista de Ambientes */
@@ -111,4 +118,294 @@
   background-color: darkred;
 }
 
+/* Login.module.css */
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
 
+.loginForm {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  color: #aaa;
+}
+
+input {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.loginButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+  background-color: #0056b3;
+}
+
+.gerenciarAmbientesContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+}
+
+.gerenciarAmbientesContent {
+  flex: 1;
+  padding: 15px;
+  background-color: #f8f9fa;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  transition: margin-left 0.4s ease;
+}
+
+.gerenciarAmbientesTitle {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtersContainer input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.downloadButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.downloadButtons button {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.downloadButtons button:hover {
+  background-color: #333;
+}
+
+.ambientesTableContainer {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ambientesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ambientesTable th,
+.ambientesTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.ambientesTable th {
+  background-color: #f2f2f2;
+}
+
+.ambientesTable tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.ambientesTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Paginação */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.paginationButton {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.paginationButton:hover {
+  background-color: #0056b3;
+}
+
+.paginationButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.active {
+  background-color: #0056b3;
+}
+
+/* Responsiveness */
+@media (max-width: 1200px) {
+  .gerenciarAmbientesContent {
+    padding: 10px;
+  }
+
+  .gerenciarAmbientesTitle {
+    font-size: 1.8rem;
+  }
+
+  .filtersContainer input {
+    font-size: 0.9rem;
+  }
+
+  .downloadButtons button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .ambientesTable th,
+  .ambientesTable td {
+    padding: 6px;
+  }
+
+  .paginationButton {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .gerenciarAmbientesContent {
+    padding: 8px;
+  }
+
+  .gerenciarAmbientesTitle {
+    font-size: 1.5rem;
+  }
+
+  .filtersContainer {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .filtersContainer input {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+
+  .downloadButtons {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .downloadButtons button {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+
+  .ambientesTable th,
+  .ambientesTable td {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .paginationButton {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gerenciarAmbientesContent {
+    padding: 5px;
+  }
+
+  .gerenciarAmbientesTitle {
+    font-size: 1.2rem;
+  }
+
+  .filtersContainer input {
+    font-size: 0.7rem;
+    padding: 6px;
+  }
+
+  .downloadButtons button {
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
+
+  .ambientesTable th,
+  .ambientesTable td {
+    padding: 4px;
+    font-size: 0.7rem;
+  }
+
+  .paginationButton {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+}

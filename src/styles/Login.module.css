@@ -1,41 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-/* Container principal para centralizar todo o conteúdo */
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%; /* Garantir que a altura ocupe 100% */
-  background-color: #fff; /* Fundo branco */
+  height: 100%;
+  background-color: #fff;
   font-family: 'Roboto', sans-serif;
 }
 
-/* Container que ocupa toda a altura da tela e centraliza o conteúdo */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Garantir que ocupe 100% da altura da viewport */
+  height: 100vh;
   margin: 0;
 }
 
-/* Cartão de login */
 .card {
-  background-color: #f7f7f7; /* Fundo cinza claro */
-  padding: 40px 30px; /* Ajustado para mais espaço */
-  border-radius: 10px; /* Bordas arredondadas mais suaves */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+  background-color: #f7f7f7;
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 380px; /* Limitar largura do cartão */
+  max-width: 380px;
   text-align: center;
-  box-sizing: border-box; /* Garantir que o padding não ultrapasse a largura do card */
+  box-sizing: border-box;
 }
 
-/* Container da logo */
 .logoContainer {
-  margin-bottom: 30px; /* Maior espaçamento */
+  margin-bottom: 30px;
 }
 
-/* Logo (ajustar conforme necessário) */
 .logo {
   max-width: 130px;
   height: auto;
@@ -43,29 +38,25 @@ html, body {
   margin: 0 auto;
 }
 
-/* Título */
 .title {
-  font-size: 28px; /* Tamanho maior para o título */
+  font-size: 28px;
   font-weight: 500;
-  color: #333; /* Cor do texto */
-  margin-bottom: 25px; /* Maior espaçamento */
+  color: #333;
+  margin-bottom: 25px;
 }
 
-/* Estilo para mensagens de erro */
 .error {
   color: #d9534f;
   font-size: 14px;
   margin-bottom: 20px;
 }
 
-/* Container para o campo de entrada com ícone */
 .inputContainer {
   position: relative;
   width: 100%;
-  margin-bottom: 15px; /* Menor espaçamento entre os campos */
+  margin-bottom: 15px;
 }
 
-/* Ícones dentro dos campos */
 .icon {
   position: absolute;
   left: 12px;
@@ -75,44 +66,55 @@ html, body {
   color: #aaa;
 }
 
-/* Campos de entrada */
 .input {
   width: 100%;
-  padding: 14px 20px 14px 40px; /* Aumentado o padding à esquerda para acomodar os ícones */
-  margin-bottom: 15px; /* Menor espaçamento entre os campos */
-  border: 1px solid #ddd; /* Borda cinza mais suave */
-  background-color: #fafafa; /* Fundo suave */
-  color: #333; /* Cor do texto */
+  padding: 14px 40px 14px 40px;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  color: #333;
   font-size: 16px;
   border-radius: 6px;
   outline: none;
   transition: border-color 0.3s ease;
-  box-sizing: border-box; /* Garante que o padding não cause transbordamento */
+  box-sizing: border-box;
 }
 
-/* Foco nos campos */
 .input:focus {
-  border-color: #333; /* Borda mais escura ao focar */
-  background-color: #fff; /* Fundo branco ao focar */
+  border-color: #333;
+  background-color: #fff;
 }
 
-/* Botão de login */
 .button {
   width: 100%;
-  padding: 14px 20px; /* Tamanho do botão ajustado para uniformizar com os campos */
-  background-color: #000; /* Preto mais forte para o fundo */
-  color: #fff; /* Texto branco */
+  padding: 14px 20px;
+  background-color: #000;
+  color: #fff;
   font-size: 16px;
   font-weight: 500;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Efeito suave no hover */
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Efeito de hover no botão */
 .button:hover {
-  background-color: #111; /* Preto mais escuro para o hover */
-  transform: translateY(-2px); /* Levanta o botão ao passar o mouse */
+  background-color: #111;
+  transform: translateY(-2px);
 }
 
+.eyeIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 18px;
+  z-index: 2;
+}
+
+.passwordInput {
+  padding-right: 40px;
+}

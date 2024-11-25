@@ -1,13 +1,20 @@
 /* Dashboard.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+body {
+  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif; /* Adiciona a fonte Poppins */
+  overflow-x: hidden; /* Evita overflow */
+  transition: margin-left 0.4s ease;
+}
+
 /* Container principal */
 .dashboardContainer {
   display: flex;
   flex-direction: row; /* Coluna para telas maiores */
   min-height: 100vh;
   background-color: #f8f9fa;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  font-family: 'Poppins', sans-serif; /* Adiciona a fonte Poppins */
 }
 
 /* Conteúdo principal */
@@ -16,7 +23,8 @@
   padding: 15px;
   background-color: #f8f9fa;
   overflow-x: hidden; /* Evita overflow */
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  font-family: 'Poppins', sans-serif; /* Adiciona a fonte Poppins */
+  transition: margin-left 0.4s ease;
 }
 
 /* Título do Dashboard */
@@ -25,7 +33,7 @@
   color: #333;
   text-align: center;
   margin-bottom: 20px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  font-family: 'Poppins', sans-serif; /* Adiciona a fonte Poppins */
 }
 
 /* Filtros e Botões */
@@ -33,208 +41,138 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  font-family: 'Poppins', sans-serif; /* Adiciona a fonte Poppins */
 }
 
 /* Filtros */
 .filtersContainer {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  align-items: center;
+  gap: 10px; /* Adjust this value to set the desired gap */
 }
 
-.filtersContainer .filters {
+.filters {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  align-items: center;
+  gap: 10px; /* Adjust this value to set the desired gap */
 }
 
 .filters input,
-.filters select {
-  padding: 8px;
-  font-size: 0.9rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 100%;
-  max-width: 180px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+.filters div {
+  margin-bottom: 0; /* Remove bottom margin */
 }
 
-.filters input[type='date'] {
-  width: 150px;
+.filters label {
+  margin-right: 5px; /* Adjust this value to set the desired gap */
 }
 
-.filters select {
-  width: 150px;
-}
-
-.downloadButtons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
-}
-
-.downloadButtons button {
-  background-color: #0a50ca;
-  color: white;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 0.9rem;
-  min-width: 120px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
-}
-
-.downloadButtons button:hover {
-  background-color: #1c95f2;
-}
-
-/* Tabela de Reservas */
+/* Reservas */
 .reservationsTableContainer {
-  background-color: white;
+  background: #fff;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
-}
-
-.reservationsTableContainer h2 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  color: #333;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .reservationsTable {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
 .reservationsTable th,
 .reservationsTable td {
-  text-align: left;
+  border: 1px solid #ddd;
   padding: 8px;
-  border-bottom: 1px solid #ddd;
-  font-size: 0.9rem;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  text-align: left;
 }
 
 .reservationsTable th {
-  background-color: #f1f1f1;
-  color: #333;
-  font-weight: bold;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  background-color: #f2f2f2;
+}
+
+.reservationsTable tr:nth-child(even) {
+  background-color: #fafafa;
 }
 
 .reservationsTable tr:hover {
-  background-color: #f9f9f9;
-}
-
-.reservationsTable button {
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  background-color: #0a50ca;
-  color: white;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
-}
-
-.reservationsTable button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.reservationsTable button:not(:disabled):hover {
-  background-color: #1c95f2;
+  background-color: #f1f1f1;
 }
 
 /* Paginação */
 .pagination {
   display: flex;
   justify-content: center;
-  gap: 5px;
-  margin-top: 15px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  margin-top: 20px;
 }
 
 .pagination button {
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  border: 1px solid #ddd;
-  background-color: white;
-  color: #333;
+  margin: 0 5px;
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
-}
-
-.acoes-css button {
-  gap: 10px;
-  margin: 10px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .pagination button:hover {
-  background-color: #1c95f2;
-  color: white;
+  background-color: #0056b3;
 }
 
 .pagination .active {
-  background-color: #0a50ca;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 20px;
+  background-color: #0056b3;
 }
 
 /* Gráficos */
 .chartsContainer {
+  margin-top: 40px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
-  padding: 15px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
 }
 
-.chartCanvas {
-  width: 100%;
-  max-width: 350px;
-  height: 200px;
-  font-family: var(--font-family); /* Adiciona a fonte Poppins */
+/* Download Buttons */
+.downloadButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.downloadButtons button {
+  background-color: #000; /* Black color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.downloadButtons button:hover {
+  background-color: #333; /* Darker black on hover */
+  transform: translateY(-2px); /* Levanta o botão ao passar o mouse */
 }
 
 /* Media Queries para Responsividade */
 
 /* Para telas grandes */
 @media (max-width: 1200px) {
-  .dashboardContainer {
-    flex-direction: column; /* Muda para coluna em telas menores */
-  }
-
   .dashboardContent {
     padding: 15px;
   }
 
   .filtersContainer .filters {
     justify-content: space-between;
+    gap: 2px; /* Further reduced gap for larger screens */
   }
 }
 
 /* Para telas médias */
 @media (max-width: 768px) {
-  .dashboardContent {
-    margin-left: 0;
+  .dashboardContent { 
+    padding: 10px;
   }
 
   .filters input,
@@ -263,12 +201,20 @@
     max-width: 100%;
     height: 180px;
   }
+
+  .dashboardTitle {
+    font-size: 1.5rem;
+  }
+
+  .filtersAndReservations {
+    gap: 15px;
+  }
 }
 
 /* Para telas pequenas */
 @media (max-width: 480px) {
   .dashboardTitle {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
   }
 
   .reservationsTable th,
@@ -278,6 +224,77 @@
 
   .pagination button {
     padding: 6px 10px;
+  }
+
+  .dashboardContent {
+    padding: 5px;
+  }
+
+  .filtersAndReservations {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  
+}
+
+.acoes-css button {
+  gap: 10px;
+  margin: 10px;
+}
+
+@media (max-width: 430px) {
+  .dashboardTitle {
+    font-size: 1.2rem;
+  }
+
+  .reservationsTable th,
+  .reservationsTable td {
+    padding: 6px;
+  }
+
+  .pagination button {
+    padding: 6px 10px;
+  }
+
+  .dashboardContent {
+    padding: 5px;
+  }
+
+  .filtersAndReservations {
+    gap: 5px;
+  }
+
+  .filtersContainer .filters {
+    gap: 2px; /* Further reduced gap for smaller screens */
+  }
+}
+
+@media (max-width: 390px) {
+  .dashboardTitle {
+    font-size: 1rem;
+  }
+
+  .reservationsTable th,
+  .reservationsTable td {
+    padding: 4px;
+  }
+
+  .pagination button {
+    padding: 4px 8px;
+  }
+
+  .dashboardContent {
+    padding: 3px;
+  }
+
+  .filtersAndReservations {
+    gap: 5px;
+  }
+
+  .filtersContainer .filters {
+    gap: 2px; /* Further reduced gap for smaller screens */
   }
 }
 
