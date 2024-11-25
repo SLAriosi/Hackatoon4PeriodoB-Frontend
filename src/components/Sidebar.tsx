@@ -17,18 +17,18 @@ import {
   FaUsers,
   FaBuilding,  // Adicionado para o ícone de gerenciamento de ambientes
 } from 'react-icons/fa';
+import axios from 'axios';
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isProfessor, setIsProfessor] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: 'Nova Reserva', read: false },
-    { id: 2, title: 'Novo Comentário', read: true },
-    { id: 3, title: 'Alteração de Ambiente', read: false },
-  ]);
+  const URL_API = process.env.NEXT_PUBLIC_API_URL;
+
 
 
   useEffect(() => {
@@ -38,7 +38,19 @@ const Sidebar: React.FC = () => {
     } else {
       setIsAdmin(false);
     }
-  })
+
+    if (userRole === 'PROFESSOR') {
+      setIsProfessor(true);
+    } else {
+      setIsProfessor(false);
+    }
+
+    const fetchNotifications = async () => {
+      const response = await axios.get(`${URL_API}/notificacoes/usuario/${localStorage.getItem('userId')}/nao-lidas`)
+      setNotifications(response.data);
+    }
+    fetchNotifications();
+  }, []);
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
@@ -48,13 +60,11 @@ const Sidebar: React.FC = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  const unreadNotificationsCount = notifications.filter((notification) => !notification.read).length;
 
   const handleLogout = () => {
     localStorage.clear();
     router.push('/login');
   };
-
   return (
     <div className={`${styles.sidebar} ${darkMode ? styles.dark : styles.light}`}>
       <div className={styles.logo} onClick={toggleCollapse}>
@@ -77,43 +87,47 @@ const Sidebar: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link href="/agendamento" legacyBehavior>
-            <a className={styles.link}>
-              <FaHistory size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Agendar Reserva</span>
-            </a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/Historico" legacyBehavior>
-            <a className={styles.link}>
-              <FaCog size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Histórico</span>
-            </a>
-          </Link>
-        </li>
-        <li>
           <Link href="/perfil" legacyBehavior>
             <a className={styles.link}>
               <FaUser size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Perfil</span>
             </a>
           </Link>
         </li>
-        <li>
-          <Link href="/notificacoes" legacyBehavior>
-            <a className={styles.link}>
-              <FaBell size={18} />
-              <span className={styles.notificationText}>
-                <span className={isCollapsed ? styles.hidden : ''}>Notificações</span>
-              </span>
-              {unreadNotificationsCount > 0 && (
-                <span className={styles.notificationBadge}>
-                  {unreadNotificationsCount}
-                </span>
-              )}
-            </a>
-          </Link>
-        </li>
+        {(isAdmin || isProfessor) && (
+          <>
+            <li>
+              <Link href="/notificacoes" legacyBehavior>
+                <a className={styles.link}>
+                  <FaBell size={18} />
+                  <span className={styles.notificationText}>
+                    <span className={isCollapsed ? styles.hidden : ''}>Notificações</span>
+                  </span>
+                  {notifications?.length > 0 && (
+                    <span className={styles.notificationBadge}>
+                      {notifications?.length}
+                    </span>
+                  )}
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/agendamento" legacyBehavior>
+                <a className={styles.link}>
+                  <FaHistory size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Agendar Reserva</span>
+                </a>
+              </Link>
+            </li>
+          </>
+        )}
         {isAdmin && (
           <>
+            <li>
+              <Link href="/Historico" legacyBehavior>
+                <a className={styles.link}>
+                  <FaCog size={18} /> <span className={isCollapsed ? styles.hidden : ''}>Histórico</span>
+                </a>
+              </Link>
+            </li>
             <li>
               <Link href="/GerenciarUsuarios" legacyBehavior>
                 <a className={styles.link}>

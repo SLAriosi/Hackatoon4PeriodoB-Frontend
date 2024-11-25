@@ -76,10 +76,11 @@ const Perfil: React.FC = () => {
         password: novaSenha,
         password_confirmation: confirmarSenha
       });
+      alert('Dados atualizados com sucesso!');
     } catch (error) {
       console.warn(error);
+      alert('E-mail ja está em uso entre em contato com o suporte ou utilize outro e-mail!');
     }
-    alert('Dados atualizados com sucesso!');
     router.push('/dashboard');
     setIsLoading(false);
   };
