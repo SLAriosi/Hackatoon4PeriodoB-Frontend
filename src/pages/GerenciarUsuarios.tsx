@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import '../styles/GerenciarUsuarios.css';
 import { FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const URL_API = process.env.NEXT_PUBLIC_API_URL;
 interface Usuario {
@@ -14,7 +15,6 @@ interface Usuario {
   course?: 'PEDAGOGIA' | 'SISTEMAS' | 'DIREITO' | 'PSICOLOGIA' | '';
 }
 
-
 const GerenciarUsuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [formData, setFormData] = useState<Usuario>({
@@ -24,12 +24,13 @@ const GerenciarUsuarios: React.FC = () => {
     email: '',
     course: '',
     password: '',
+    password_confirmation: '',
   });
-  const [filtroTipo, setFiltroTipo] = useState<'Todos' | 'ESTUDANTE' | 'Professor' | 'Secretário'>('Todos');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   const itemsPerPage = 5;
 
   const cursosDisponiveis = [
@@ -44,11 +45,6 @@ const GerenciarUsuarios: React.FC = () => {
       const response = await axios.get(`${URL_API}/users`);
       setUsuarios(response.data);
       setIsLoading(false);
-
-      console.log('==========');
-      console.log(response.data);
-      console.log('==========');
-
     };
     fetchUsuarios();
   }, []);
@@ -71,6 +67,7 @@ const GerenciarUsuarios: React.FC = () => {
       email: '',
       course: '',
       password: '',
+      password_confirmation: '',
     });
     setShowModal(false);
   };
@@ -83,22 +80,32 @@ const GerenciarUsuarios: React.FC = () => {
     }
   };
 
-  const handleDeleteUsuario = (id: number) => {
-    setUsuarios(usuarios.filter((u) => u.id !== id));
+  const handleDeleteUsuario = async (id: number) => {
+    const confirmDelete = window.confirm('Você tem certeza que deseja excluir este usuário?');
+    if (confirmDelete) {
+      await axios.delete(`${URL_API}/users/${id}`);
+      const response = await axios.get(`${URL_API}/users`);
+      setUsuarios(response.data);
+      setIsLoading(false);
+    }
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFiltroTipo(e.target.value as 'Todos' | 'ESTUDANTE' | 'Professor' | 'Secretário');
+  const handleUpdateUsuario = async (id: number) => {
+    try {
+      await axios.put(`${URL_API}/users/${id}`, formData);
+      router.reload();
+    } catch (error) {
+      console.error('Erro ao atualizar usuário:', error);
+    }
   };
 
   const filteredUsuarios = usuarios.filter(usuario =>
-    (filtroTipo === 'Todos' || usuario.role === filtroTipo) &&
-    (usuario.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      usuario.email.toLowerCase().includes(searchTerm.toLowerCase()))
+  (usuario.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    usuario.email.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const paginatedUsuarios = filteredUsuarios.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -124,12 +131,6 @@ const GerenciarUsuarios: React.FC = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
-              <select value={filtroTipo} onChange={handleFilterChange}>
-                <option value="Todos">Todos</option>
-                <option value="Aluno">Aluno</option>
-                <option value="Professor">Professor</option>
-                <option value="Secretário">Secretário</option>
-              </select>
               <button onClick={() => setShowModal(true)}>Adicionar Usuário</button>
             </div>
             <table className="user-table">
@@ -150,16 +151,16 @@ const GerenciarUsuarios: React.FC = () => {
                     <td>{usuario.role}</td>
                     <td>{usuario.course}</td>
                     <td>
-                      <button 
-                        onClick={() => handleEditUsuario(usuario.id)} 
+                      <button
+                        onClick={() => handleEditUsuario(usuario.id)}
                         style={{ backgroundColor: '#e2d712', transition: 'background-color 0.3s' }}
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#c4b200'}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#e2d712'}
                       >
                         Editar
                       </button>
-                      <button 
-                        onClick={() => handleDeleteUsuario(usuario.id)} 
+                      <button
+                        onClick={() => handleDeleteUsuario(usuario.id)}
                         style={{ backgroundColor: 'red', transition: 'background-color 0.3s' }}
                         onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#cc0000'}
                         onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'red'}
@@ -189,7 +190,7 @@ const GerenciarUsuarios: React.FC = () => {
                   <form onSubmit={(e) => { e.preventDefault(); handleSaveUsuario(); }}>
                     <input
                       type="text"
-                      name="nome"
+                      name="name"
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Nome"
@@ -205,25 +206,33 @@ const GerenciarUsuarios: React.FC = () => {
                     />
                     <input
                       type="password"
-                      name="senha"
+                      name="password"
                       value={formData.password}
                       onChange={handleInputChange}
                       placeholder="Senha"
                       required
                     />
+                    <input
+                      type="password"
+                      name="password_confirmation"
+                      value={formData.password_confirmation}
+                      onChange={handleInputChange}
+                      placeholder="Confirme a Senha"
+                      required
+                    />
                     <select name="role" value={formData.role} onChange={handleInputChange}>
-                      <option value="Aluno">Aluno</option>
-                      <option value="Professor">Professor</option>
-                      <option value="Secretário">Secretário</option>
+                      <option value="ESTUDANTE">Aluno</option>
+                      <option value="PROFESSOR">Professor</option>
+                      <option value="ADMINISTRADOR">Administração</option>
                     </select>
-                    {formData.role === 'ESTUDANTE' && (
-                      <select name="curso" value={formData.role} onChange={handleInputChange}>
+                    {(formData.role === 'ESTUDANTE' || formData.role === 'PROFESSOR') && (
+                      <select name="course" value={formData.course} onChange={handleInputChange}>
                         {cursosDisponiveis.map(curso => (
                           <option key={curso} value={curso}>{curso}</option>
                         ))}
                       </select>
                     )}
-                    <button type="submit">Salvar</button>
+                    <button type="submit" onClick={() => handleUpdateUsuario(formData.id)}>Salvar</button>
                   </form>
                 </div>
               </div>

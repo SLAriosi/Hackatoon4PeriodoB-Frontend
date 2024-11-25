@@ -15,11 +15,9 @@ const Agendamento: React.FC = () => {
   const [reservationToCancel, setReservationToCancel] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [reservas, setReservas] = useState<any[]>([]);
-  const [availablePeriods, setAvailablePeriods] = useState<string[]>([]);
   const [isReserving, setIsReserving] = useState(false);
   const [error, setError] = useState('');
   const [dataLivreItem, setDataLivreItem] = useState<any[]>([]);
-  const [userName, setUserName] = useState('Diego Macedo');
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [actionType, setActionType] = useState<'reserve' | 'cancel' | 'edit'>('reserve');
   const [reservationToEdit, setReservationToEdit] = useState<any | null>(null);
@@ -33,15 +31,6 @@ const Agendamento: React.FC = () => {
       router.push('/login');
     }
 
-    const fetchReservas = async () => {
-      const response = await axios.get(`${URL_API}/ambientes_reservas`);
-      const data = await response.data;
-
-      setReservas(data);
-    }
-
-    fetchReservas();
-
     const fetchAmbientes = async () => {
       const response = await axios.get(`${URL_API}/ambientes`);
       const data = await response.data;
@@ -51,6 +40,21 @@ const Agendamento: React.FC = () => {
 
     fetchAmbientes();
 
+  }, []);
+
+  useEffect(() => {
+    try {
+      const fetchReservas = async () => {
+          const response = await axios.get(`${URL_API}/ambientes_reservas`);
+          const data = await response.data;
+          setReservas(data);
+          console.log('============= ENTROU EM ADMINISTRADOR =============');
+      };
+      fetchReservas();
+
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   useEffect(() => {
@@ -122,10 +126,6 @@ const Agendamento: React.FC = () => {
     try {
       if (reservationToCancel) {
 
-        console.log('==============');
-        console.log(reservationToCancel);
-        console.log('==============');
-
         await axios.delete(`${URL_API}/ambientes_reservas/${reservationToCancel.id}`);
         alert('Reserva cancelada com sucesso!');
 
@@ -182,7 +182,7 @@ const Agendamento: React.FC = () => {
   };
 
   const handleEditedDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedReservation((prev) => ({ ...prev, date: event.target.value }));
+    setEditedReservation((prev) => ({ ...prev, data_reserva: event.target.value }));
   };
 
   const handleEditedTimeChange = (periodo: string) => {
@@ -190,7 +190,7 @@ const Agendamento: React.FC = () => {
   };
 
   const handleEditedEnvironmentChange = (envId: number) => {
-    setEditedReservation((prev) => ({ ...prev, environment: envId }));
+    setEditedReservation((prev) => ({ ...prev, ambiente_id: envId }));
   };
   return (
     <div className="agendamento-container" style={{ fontFamily: 'Poppins, sans-serif' }}>
@@ -297,69 +297,72 @@ const Agendamento: React.FC = () => {
         </div>
 
         {/* Modal de Confirmação */}
-        <div className="modal-content">
-          {actionType === 'reserve' && (
-            <>
-              <h2>Confirmar Reserva</h2>
-              <p>Você deseja confirmar a reserva?</p>
-              <div className="modal-buttons">
-                <button onClick={handleReserve} className="confirm-btn">Confirmar</button>
-                <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
-              </div>
-            </>
-          )}
-          {actionType === 'cancel' && (
-            <>
-              <h2>Cancelar Reserva</h2>
-              <p>Tem certeza que deseja cancelar esta reserva?</p>
-              <div className="modal-buttons">
-                <button onClick={handleCancelReservation} className="confirm-btn">Confirmar</button>
-                <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
-              </div>
-            </>
-          )}
-          {actionType === 'edit' && reservationToEdit && (
-            <>
-              <h2>Editar Reserva</h2>
-              <div className="edit-fields">
-                <label>Data:</label>
-                <input
-                  type="date"
-                  value={editedReservation?.data_reserva || ''}
-                  onChange={handleEditedDateChange}
-                />
-                <label>Período:</label>
-                <select
-                  value={editedReservation?.periodo || ''}
-                  onChange={(e) => handleEditedTimeChange(e.target.value)}
-                >
-                  {avaiablePeriods.map((periodo) => (
-                    <option key={periodo.id} value={periodo.periodo}>
-                      {periodo.periodo}
-                    </option>
-                  ))}
-                </select>
-                <label>Ambiente:</label>
-                <select
-                  value={editedReservation?.environment || ''}
-                  onChange={(e) => handleEditedEnvironmentChange(parseInt(e.target.value))}
-                >
-                  {ambientes.map((env) => (
-                    <option key={env.id} value={env.id}>
-                      {env.name} {console.log(env)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="modal-buttons">
-                <button onClick={handleEditReservation} className="confirm-btn">Salvar Alterações</button>
-                <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+        {showConfirmation && (
+          <div className="confirmation-modal">
+            <div className="modal-content">
+              {actionType === 'reserve' && (
+                <>
+                  <h2>Confirmar Reserva</h2>
+                  <p>Você deseja confirmar a reserva?</p>
+                  <div className="modal-buttons">
+                    <button onClick={handleReserve} className="confirm-btn">Confirmar</button>
+                    <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+                  </div>
+                </>
+              )}
+              {actionType === 'cancel' && (
+                <>
+                  <h2>Cancelar Reserva</h2>
+                  <p>Tem certeza que deseja cancelar esta reserva?</p>
+                  <div className="modal-buttons">
+                    <button onClick={handleCancelReservation} className="confirm-btn">Confirmar</button>
+                    <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+                  </div>
+                </>
+              )}
+              {actionType === 'edit' && reservationToEdit && (
+                <>
+                  <h2>Editar Reserva</h2>
+                  <div className="edit-fields">
+                    <label>Data:</label>
+                    <input
+                      type="date"
+                      value={editedReservation?.data_reserva || ''}
+                      onChange={handleEditedDateChange}
+                    />
+                    <label>Período:</label>
+                    <select
+                      value={editedReservation?.periodo || ''}
+                      onChange={(e) => handleEditedTimeChange(e.target.value)}
+                    >
+                      {avaiablePeriods.map((periodo) => (
+                        <option key={periodo.id} value={periodo.periodo}>
+                          {periodo.periodo}
+                        </option>
+                      ))}
+                    </select>
+                    <label>Ambiente:</label>
+                    <select
+                      value={editedReservation?.ambiente_id || ''}
+                      onChange={(e) => handleEditedEnvironmentChange(parseInt(e.target.value))}
+                    >
+                      {ambientes.map((env) => (
+                        <option key={env.id} value={env.id}>
+                          {env.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="modal-buttons">
+                    <button onClick={handleEditReservation} className="confirm-btn">Salvar Alterações</button>
+                    <button onClick={closeConfirmationModal} className="cancel-btn">Cancelar</button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
         )}
+      </div>
     </div>
 
   );

@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, useMemo } from 'react';
 import Sidebar from '../components/Sidebar';
 import { getReservations } from '../services/reservation';
@@ -17,14 +18,14 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filterStatus, setFilterStatus] = useState<string>('all');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
-  const [statusUpdate, setStatusUpdate] = useState<string>('');  // Para marcar "faltou" nas reservas
+  const [role, setRole] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [environments, setEnvironments] = useState<string[]>([]);
 
   const router = useRouter();
+  const URL_API = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -33,13 +34,22 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const permissao = (localStorage.getItem('role'));
+    if (permissao) {
+      setRole(permissao);
+    } else {
+
+    }
+  }, []);
+
   const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchEnvironments = async () => {
       try {
-        const response = await axios.get('/ambientes');
-        setEnvironments(response.data); // Ensure response.data is an array
+        const response = await axios.get(`${URL_API}/ambientes`);
+        setEnvironments(response.data);
       } catch (error) {
         toast.error('Erro ao carregar os ambientes!');
       }
@@ -53,7 +63,13 @@ const Dashboard: React.FC = () => {
       try {
         setLoading(true);
         setError(null);
-        const reservationsData = await getReservations();
+        const response = await axios.get(`${URL_API}/ambientes_reservas`);
+        const reservationsData = response.data;
+
+        console.log('===============');
+        console.log(response.data);
+        console.log('===============');
+
         setReservations(reservationsData);
         setFilteredReservations(reservationsData);
         renderCharts(reservationsData);
@@ -71,30 +87,28 @@ const Dashboard: React.FC = () => {
   const filteredData: Reservation[] = useMemo(() => {
     let updatedReservations = reservations;
 
-    // Filtro de Status
-    if (filterStatus !== 'all') {
-      updatedReservations = updatedReservations.filter(
-        (res) => res.status.toLowerCase() === filterStatus.toLowerCase()
-      );
-    }
-
     // Filtro de Ambiente (search)
     if (searchQuery) {
-      updatedReservations = updatedReservations.filter((res) =>
-        res.environment.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      updatedReservations = updatedReservations.filter((res) => {
+        console.log('Reserva:', res);
+        return res.ambiente.name.toLowerCase().includes(searchQuery.toLowerCase());
+      });
     }
 
     // Filtro de Data
     if (startDate && endDate) {
       updatedReservations = updatedReservations.filter((res) => {
-        const resDate = new Date(res.date);
-        return resDate >= new Date(startDate) && resDate <= new Date(endDate);
+        const resDate = new Date(res.data_reserva);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        console.log('Comparando datas:', resDate, start, end);
+        return resDate >= start && resDate <= end;
       });
     }
 
+
     return updatedReservations;
-  }, [filterStatus, searchQuery, reservations, startDate, endDate]);
+  }, [searchQuery, reservations, startDate, endDate]);
 
   useEffect(() => {
     setFilteredReservations(filteredData);
@@ -102,42 +116,14 @@ const Dashboard: React.FC = () => {
 
   // Função de renderização dos gráficos
   const renderCharts = (data: Reservation[]): void => {
-    const environmentCounts = environments.map(
-      (env) => data.filter((res) => res.environment === env).length
-    );
-
+    // Contagem de reservas por mês
     const monthlyCounts = Array(12).fill(0);
     data.forEach((res) => {
-      const month = new Date(res.date).getMonth();
+      const month = new Date(res.data_reserva).getMonth();
       monthlyCounts[month]++;
     });
 
-    const ctxBar = document.getElementById('reservationChartBar') as HTMLCanvasElement;
     const ctxLine = document.getElementById('reservationChartLine') as HTMLCanvasElement;
-
-    if (ctxBar) {
-      new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-          labels: environments,
-          datasets: [
-            {
-              label: 'Reservas por Ambiente',
-              data: environmentCounts,
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: true },
-          },
-        },
-      });
-    }
 
     if (ctxLine) {
       new Chart(ctxLine, {
@@ -163,16 +149,6 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Função para atualizar status da reserva
-  const handleStatusUpdate = (id: number, status: string): void => {
-    const updatedReservations = reservations.map((res) =>
-      res.id === id ? { ...res, status } : res
-    );
-    setReservations(updatedReservations);
-    setFilteredReservations(updatedReservations);
-    toast.success(`Status da reserva atualizado para "${status}"`);
-  };
-
   // Função para baixar o relatório em CSV
   const handleDownloadCSV = (): void => {
     const csvContent =
@@ -182,7 +158,7 @@ const Dashboard: React.FC = () => {
           filteredReservations
             .map(
               (res) =>
-                `${res.environment},${new Date(res.date).toLocaleString()},${res.status},${res.reservedBy}`
+                `${res.ambiente},${new Date(res.data_reserva).toLocaleString()},${res.user.course},${res.user.name}`
             )
         )
         .join('\n');
@@ -206,30 +182,13 @@ const Dashboard: React.FC = () => {
     doc.text('Relatório de Reservas', 20, 20);
     filteredReservations.forEach((res, index) => {
       doc.text(
-        `${index + 1}. Ambiente: ${res.environment}, Data: ${new Date(res.date).toLocaleString()}, Status: ${res.status}, Pessoa que Reservou: ${res.reservedBy}`,
+        `${index + 1}. Ambiente: ${res.ambiente.name}, Data: ${new Date(res.data_reserva).toLocaleString()}, Curso: ${res.user.course}, Pessoa que Reservou: ${res.user.name}`,
         20,
         30 + index * 10
       );
     });
     doc.save('reservations_report.pdf');
   };
-
-  // Função para contar reservas por status
-  const countReservationsByStatus = (): { pending: number; completed: number; canceled: number } => {
-    return reservations.reduce(
-      (acc, res) => {
-        if (res.status === 'pendente') acc.pending++;
-        if (res.status === 'concluido') acc.completed++;
-        if (res.status === 'cancelado') acc.canceled++;
-        return acc;
-      },
-      { pending: 0, completed: 0, canceled: 0 }
-    );
-  };
-
-  const { pending, completed, canceled } = countReservationsByStatus();
-
-  // Cálculo de índices para paginação
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentReservations = filteredReservations.slice(indexOfFirstItem, indexOfLastItem);
@@ -250,26 +209,12 @@ const Dashboard: React.FC = () => {
           {/* Filtros */}
           <div className={styles.filtersContainer}>
             <div className={styles.filters}>
-              <select
+              <input
+                type="text"
+                placeholder="Filtrar por ambiente"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-              >
-                <option value="">Filtrar por ambiente</option>
-                {Array.isArray(environments) && environments.map((env) => (
-                  <option key={env} value={env}>
-                    {env}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option value="all">Todos os Status</option>
-                <option value="pendente">Pendente</option>
-                <option value="concluido">Concluído</option>
-                <option value="cancelado">Cancelado</option>
-              </select>
+              />
               <input
                 type="date"
                 value={startDate}
@@ -282,12 +227,14 @@ const Dashboard: React.FC = () => {
               />
             </div>
 
-            {/* Botões de download */}
-            <div className={styles.downloadButtons}>
-              <button onClick={handleDownloadCSV}>Baixar CSV</button>
-              <button onClick={handleDownloadPDF}>Baixar PDF</button>
-              <button onClick={() => handleDownloadChart('reservationChartBar')}>Baixar Gráfico de Barras</button>
-              <button onClick={() => handleDownloadChart('reservationChartLine')}>Baixar Gráfico de Linhas</button>
+            <div>
+              {role === 'ADMINISTRADOR' && (
+                <div className={styles.downloadButtons}>
+                  <button onClick={handleDownloadCSV}>Baixar CSV</button>
+                  <button onClick={handleDownloadPDF}>Baixar PDF</button>
+                  <button onClick={() => handleDownloadChart('reservationChartLine')}>Baixar Gráfico de Linhas</button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -304,39 +251,21 @@ const Dashboard: React.FC = () => {
                   <tr>
                     <th>Ambiente</th>
                     <th>Data</th>
-                    <th>Status</th>
+                    <th>Curso</th>
                     <th>Pessoa que Reservou</th>
-                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody className='acoes-css'>
-                  
+
                   {currentReservations.map((res) => (
+                    console.log('res'),
+                    console.log(res),
+                    console.log('res'),
                     <tr key={res.id}>
-                      <td>{res.environment}</td>
-                      <td>{new Date(res.date).toLocaleString()}</td>
-                      <td>{res.status}</td>
-                      <td>{res.reservedBy}</td>
-                      <td>
-                        <button
-                          onClick={() => handleStatusUpdate(res.id, 'concluido')}
-                          disabled={res.status === 'concluido'}
-                        >
-                          Concluído
-                        </button>
-                        <button
-                          onClick={() => handleStatusUpdate(res.id, 'pendente')}
-                          disabled={res.status === 'pendente'}
-                        >
-                          Pendente
-                        </button>
-                        <button
-                          onClick={() => handleStatusUpdate(res.id, 'cancelado')}
-                          disabled={res.status === 'cancelado'}
-                        >
-                          Cancelado
-                        </button>
-                      </td>
+                      <td>{res.ambiente.name}</td>
+                      <td>{new Date(res.data_reserva).toLocaleString()}</td>
+                      <td>{res.user.course}</td>
+                      <td>{res.user.name}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -361,10 +290,11 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Gráficos */}
-        <div className={styles.chartsContainer}>
-          <canvas id="reservationChartBar" width="400" height="200"></canvas>
-          <canvas id="reservationChartLine" width="400" height="200"></canvas>
-        </div>
+        {role === 'ADMINISTRADOR' && (
+          <div className={styles.chartsContainer}>
+            <canvas id="reservationChartLine" width="400" height="200"></canvas>
+          </div>
+        )}
       </div>
     </div>
   );
