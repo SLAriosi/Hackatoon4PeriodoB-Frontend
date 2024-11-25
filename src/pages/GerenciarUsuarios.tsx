@@ -54,10 +54,19 @@ const GerenciarUsuarios: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSaveUsuario = () => {
+  const handleSaveUsuario = async () => {
     if (!formData.name || !formData.email || !formData.password) {
       alert('Por favor, preencha todos os campos obrigatórios.');
       return;
+    }
+
+    try {
+      await axios.post(`${URL_API}/users`, formData);
+      const response = await axios.get(`${URL_API}/users`);
+      setUsuarios(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Erro ao criar usuário:', error);
     }
 
     setFormData({
@@ -232,7 +241,7 @@ const GerenciarUsuarios: React.FC = () => {
                         ))}
                       </select>
                     )}
-                    <button type="submit" onClick={() => handleUpdateUsuario(formData.id)}>Salvar</button>
+                    <button type="submit">Salvar</button>
                   </form>
                 </div>
               </div>
