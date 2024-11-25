@@ -11,6 +11,7 @@ interface Ambiente {
   description: string;
   capacidade: string;
   materiais: string;
+  is_active: boolean;
 }
 
 const URL_API = process.env.NEXT_PUBLIC_API_URL;
@@ -138,6 +139,14 @@ const GerenciarAmbientes: React.FC = () => {
                 value={ambienteEdit?.materiais}
                 onChange={handleInputChange}
               />
+              <select
+                name="is_active"
+                value={ambienteEdit?.is_active}
+                onChange={handleInputChange}
+              >
+                <option value="1">Ativo</option>
+                <option value="0">Inativo</option>
+              </select>
               <button onClick={ambienteEdit?.id ? () => handleUpdateAmbiente(ambienteEdit?.id) : handleAddAmbiente}>
                 {ambienteEdit?.id ? 'Atualizar Ambiente' : 'Adicionar Ambiente'}
               </button>

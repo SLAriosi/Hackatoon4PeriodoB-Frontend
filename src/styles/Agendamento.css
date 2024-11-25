@@ -12,7 +12,8 @@ body {
     flex-direction: row;
     height: 100vh;
     background-color: #f5f5f5;
-    flex-wrap: wrap; /* Permite que o layout se ajuste em telas pequenas */
+    flex-wrap: wrap;
+    /* Permite que o layout se ajuste em telas pequenas */
 }
 
 /* Estilos para a área de conteúdo (exclui a sidebar) */
@@ -81,7 +82,8 @@ body {
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centraliza as opções de horários */
+    justify-content: center;
+    /* Centraliza as opções de horários */
 }
 
 .time-slot {
@@ -94,7 +96,8 @@ body {
     border-radius: 5px;
     transition: background-color 0.3s ease;
     width: 100%;
-    max-width: 150px; /* Limite máximo de largura para cada slot */
+    max-width: 150px;
+    /* Limite máximo de largura para cada slot */
     text-align: center;
 }
 
@@ -129,8 +132,10 @@ body {
     font-size: 1.1rem;
     transition: background-color 0.3s ease;
     width: 100%;
-    max-width: 200px; /* Limite máximo de largura */
-    margin: 20px auto; /* Centraliza o botão */
+    max-width: 200px;
+    /* Limite máximo de largura */
+    margin: 20px auto;
+    /* Centraliza o botão */
     display: flex;
 }
 
@@ -183,8 +188,10 @@ body {
     margin-top: 20px;
     display: flex;
     justify-content: center;
-    align-items: center; /* Centraliza o conteúdo dentro do container */
-    gap: 10px; /* Adiciona um pequeno espaço entre o campo de data e o botão */
+    align-items: center;
+    /* Centraliza o conteúdo dentro do container */
+    gap: 10px;
+    /* Adiciona um pequeno espaço entre o campo de data e o botão */
 }
 
 .date-input {
@@ -192,8 +199,10 @@ body {
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ddd;
-    width: 80%; /* Ajuste a largura conforme necessário */
-    max-width: 250px; /* Limite máximo de largura */
+    width: 80%;
+    /* Ajuste a largura conforme necessário */
+    max-width: 250px;
+    /* Limite máximo de largura */
     box-sizing: border-box;
 }
 
@@ -230,6 +239,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -350,19 +360,29 @@ body {
         font-size: 1rem;
     }
 }
+
 .edit-btn {
     background-color: #007bff;
     color: white;
     padding: 5px 10px;
     border: none;
     cursor: pointer;
-  }
-  
-  .edit-btn:hover {
+}
+
+.edit-btn:hover {
     background-color: #0056b3;
-  }
-  
-  .modal-buttons {
+}
+
+.modal-buttons {
     display: flex;
     justify-content: space-between;
-  }
+}
+
+.inactive {
+    background-color: #f8d7da;
+    /* Exemplo de cor de fundo para inativos */
+    color: #721c24;
+    /* Exemplo de cor de texto para inativos */
+    border: 1px solid #f5c6cb;
+    /* Exemplo de borda para inativos */
+}

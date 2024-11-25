@@ -10,6 +10,7 @@ const Agendamento: React.FC = () => {
   const URL_API = process.env.NEXT_PUBLIC_API_URL;
 
   const [selectedEnvironment, setSelectedEnvironment] = useState<number | null>(null);
+  const [selectedNameEnvironment, setSelectedNameEnvironment] = useState<number | null>(null);
   const [PeriodoSelecionado, setPeriodoSelecionado] = useState<string | null>(null);
   const [reservationToCancel, setReservationToCancel] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -101,6 +102,13 @@ const Agendamento: React.FC = () => {
         periodo: PeriodoSelecionado,
         user_id: localStorage.getItem('userId'),
       });
+
+      await axios.post(`${URL_API}/notificacoes`, {
+        usuario_id: localStorage.getItem('userId'),
+        mensagem: `Agendamento criado para o ambiente ${selectedNameEnvironment}, para o dia ${selectedDate} no período da ${PeriodoSelecionado}`,
+        tipo: 'RESERVA',
+        lida: false,
+      });
       router.reload();
 
     } catch (error) {
@@ -113,8 +121,20 @@ const Agendamento: React.FC = () => {
   const handleCancelReservation = async () => {
     try {
       if (reservationToCancel) {
+
+        console.log('==============');
+        console.log(reservationToCancel);
+        console.log('==============');
+
         await axios.delete(`${URL_API}/ambientes_reservas/${reservationToCancel.id}`);
         alert('Reserva cancelada com sucesso!');
+
+        await axios.post(`${URL_API}/notificacoes`, {
+          usuario_id: reservationToCancel.user_id,
+          mensagem: `Atenção! Sua reserva para o dia ${reservationToCancel.data_reserva} no período da ${reservationToCancel.periodo} foi cancelada.`,
+          tipo: 'CANCELAMENTO',
+          lida: false,
+        });
         router.reload();
       }
     } catch (error) {
@@ -127,6 +147,13 @@ const Agendamento: React.FC = () => {
     try {
       await axios.put(`${URL_API}/ambientes_reservas/${editedReservation.id}`, editedReservation);
       alert('Reserva Editada com sucesso!');
+
+      await axios.post(`${URL_API}/notificacoes`, {
+        usuario_id: editedReservation.user_id,
+        mensagem: `Atenção! Verifique seus agendamentos, você teve uma alteração no seu quadro de reservas, foi atualizado um agendamento para o dia ${editedReservation.data_reserva} no período da ${editedReservation.periodo}.`,
+        tipo: 'LEMBRETE',
+        lida: false,
+      });
       router.reload();
     } catch (error) {
       alert(error.response.data.error);
@@ -176,10 +203,13 @@ const Agendamento: React.FC = () => {
             <div
               key={env.id}
               onClick={() => {
-                setSelectedEnvironment(env.id)
-                setSelectedDate('');
+                if (env.is_active) {
+                  setSelectedEnvironment(env.id);
+                  setSelectedDate('');
+                  setSelectedNameEnvironment(env.name);
+                }
               }}
-              className={`environment-card ${selectedEnvironment === env.id ? 'selected' : ''}`}
+              className={`environment-card ${selectedEnvironment === env.id ? 'selected' : ''} ${env.is_active === 0 ? 'inactive' : ''}`}
               title={env.description}
               style={{ borderBottom: "4px solid #0066b3" }}
             >
@@ -188,6 +218,7 @@ const Agendamento: React.FC = () => {
               <p>{env.description}</p>
               <p><strong>Capacidade:</strong> {env.capacidade}</p>
               <p><strong>Equipamento:</strong> {env.materiais}</p>
+              {env.is_active === 0 && <h3><strong>Manutenção</strong></h3>}
               <div
                 style={{ color: "#0066b3", width: "100%", textAlign: "center" }}
               >
